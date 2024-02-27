@@ -1,13 +1,13 @@
 // ignore_for_file: camel_case_types, prefer_typing_uninitialized_variables
 import 'package:flutter/material.dart';
 import 'package:sisepuh/main.dart';
-import 'package:sisepuh/screens/form_view.dart';
+import 'package:sisepuh/screens/mastertable/widget/form_view.dart';
 import 'package:sisepuh/widget/header_nav.dart';
-import 'package:sisepuh/widget/line_chart.dart';
-import 'package:sisepuh/widget/navigation_drawer.dart';
-import 'package:sisepuh/widget/pie_chart.dart';
-import 'package:sisepuh/widget/recent_data.dart';
-import 'package:sisepuh/widget/streambuilder_data.dart';
+import 'package:sisepuh/screens/Home/widget/line_chart.dart';
+import 'package:sisepuh/screens/Home/widget/navigation_drawer.dart';
+import 'package:sisepuh/screens/Home/widget/pie_chart.dart';
+import 'package:sisepuh/screens/Home/widget/recent_data.dart';
+import 'package:sisepuh/screens/mastertable/widget/streambuilder_data.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({Key? key}) : super(key: key);

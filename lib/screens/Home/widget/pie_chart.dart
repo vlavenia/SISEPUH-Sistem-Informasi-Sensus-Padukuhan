@@ -171,7 +171,6 @@ class PieChart2State extends State<PieChartSample2> {
                       //   height: 13.5,
                       // ),
                       Text(
-                        
                         //lm bgt ngereload dpt datanya
                         "Total : $datacount",
                         style: TextStyle(

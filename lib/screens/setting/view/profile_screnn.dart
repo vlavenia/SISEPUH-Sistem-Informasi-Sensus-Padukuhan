@@ -1,8 +1,9 @@
 // ignore_for_file: camel_case_types, prefer_typing_uninitialized_variables
 
 import 'package:flutter/material.dart';
+import 'package:sisepuh/widget/bottomnav_widget.dart';
 import 'package:sisepuh/widget/header_nav.dart';
-import 'package:sisepuh/widget/navigation_drawer.dart';
+import 'package:sisepuh/screens/Home/widget/navigation_drawer.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);

@@ -211,9 +211,9 @@ class _FormViewState extends State<FormView> {
                 width: 330,
                 child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      primary: Colors.blue, // background
-                      // foreground
-                    ),
+                        //primary: Colors.blue, // background
+                        // foreground
+                        ),
                     onPressed: () {
                       String id = randomAlphaNumeric(10);
                       final user = <String, dynamic>{

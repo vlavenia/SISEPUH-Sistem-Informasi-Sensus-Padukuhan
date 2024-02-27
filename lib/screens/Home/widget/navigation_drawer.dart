@@ -2,9 +2,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:sisepuh/constant.dart';
-import 'package:sisepuh/screens/dashboard_screen.dart';
-import 'package:sisepuh/screens/master_table_screen.dart';
-import 'package:sisepuh/screens/profile_screnn.dart';
+import 'package:sisepuh/screens/dashboard/view/dashboard_screen.dart';
+import 'package:sisepuh/screens/mastertable/view/master_table_screen.dart';
+import 'package:sisepuh/screens/setting/view/profile_screnn.dart';
 
 class NavigationDrawerCustom extends StatefulWidget {
   const NavigationDrawerCustom({Key? key}) : super(key: key);

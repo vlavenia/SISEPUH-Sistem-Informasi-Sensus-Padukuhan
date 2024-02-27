@@ -1,10 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:sisepuh/screens/form_view.dart';
+import 'package:sisepuh/controller/bottomnavbar_controller.dart';
+import 'package:sisepuh/screens/mastertable/widget/form_view.dart';
+import 'package:sisepuh/widget/bottomnav_widget.dart';
 import 'package:sisepuh/widget/header_nav.dart';
-import 'package:sisepuh/widget/navigation_drawer.dart';
-import 'package:sisepuh/widget/streambuilder_data.dart';
-import 'package:sisepuh/widget/text_search.dart';
+import 'package:sisepuh/screens/Home/widget/navigation_drawer.dart';
+import 'package:sisepuh/screens/mastertable/widget/streambuilder_data.dart';
+import 'package:sisepuh/screens/Home/widget/text_search.dart';
 
 class MasterTableScreen extends StatefulWidget {
   const MasterTableScreen({Key? key}) : super(key: key);
@@ -19,7 +21,6 @@ class _MasterTableScreenState extends State<MasterTableScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: NavigationDrawerCustom(),
       appBar: headerNav(title: 'Data Penduduk RT 02'),
       body: SingleChildScrollView(
         child: Column(
@@ -45,4 +46,3 @@ class _MasterTableScreenState extends State<MasterTableScreen> {
     );
   }
 }
-

@@ -22,7 +22,8 @@ class Streambuilderdata extends StatelessWidget {
             scrollDirection: Axis.horizontal,
             child: DataTable(
               headingTextStyle: TextStyle(
-                  color: Color(0xFF50E4FF),
+                  // color: Color.fromARGB(172, 68, 137, 255),
+                  color: Color.fromARGB(255, 68, 137, 255),
                   fontWeight: FontWeight.bold,
                   fontSize: 15),
               columns: [
