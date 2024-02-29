@@ -5,11 +5,11 @@ import 'package:sisepuh/constant.dart';
 class Streambuilderdata extends StatelessWidget {
   Streambuilderdata({
     super.key,
-    required this.db,
     this.takes,
   });
   late int? takes;
-  final FirebaseFirestore db;
+
+  var db = FirebaseFirestore.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +34,7 @@ class Streambuilderdata extends StatelessWidget {
               rows: data.take(2).map((item) {
                 return DataRow(
                   cells: [
-                    DataCell(Text(item["name"])),
+                    DataCell(Text(item["nama"])),
                     DataCell(Text(item["birthdate"])),
                     DataCell(Text(item["gender"])),
                   ],
@@ -58,9 +58,15 @@ class Streambuilderdata extends StatelessWidget {
               rows: data.map((item) {
                 return DataRow(
                   cells: [
-                    DataCell(Text(item["name"])),
-                    DataCell(Text(item["birthdate"])),
-                    DataCell(Text(item["gender"])),
+                    DataCell(
+                      Text(item["nama"]),
+                    ),
+                    DataCell(
+                      Text(item["birthdate"]),
+                    ),
+                    DataCell(
+                      Text(item["gender"]),
+                    ),
                   ],
                 );
               }).toList(),

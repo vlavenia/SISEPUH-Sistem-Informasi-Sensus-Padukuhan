@@ -1,10 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:sisepuh/constant.dart';
+import 'package:get/get.dart';
+import 'package:sisepuh/controller/formdata_controller.dart';
 import 'package:sisepuh/main.dart';
 import 'package:sisepuh/resources/app_color.dart';
 import 'package:sisepuh/widget/indicator_chart.dart';
+import 'package:get/get.dart';
 
 class PieChartSample2 extends StatefulWidget {
   const PieChartSample2({super.key});
@@ -17,38 +19,11 @@ class PieChart2State extends State<PieChartSample2> {
   int touchedIndex = -1;
   int? datacount;
   int? datacountAge;
-  final db = FirebaseFirestore.instance;
 
-  //AggregateQuerySnapshot aggregateQuerySnapshot= await db.collection('penduduk').count().get(source: aggregateQuerySnapshot.server);
-
-  void main() {}
+  var FromdataController = Get.put(FromDataController());
 
   @override
   Widget build(BuildContext context) {
-    //ini tu udh ta bungkus di dlm func, heww, ga giut. so?satunya function apa, method? iya sma aja. trs? satunya method mana yang mau dipanggil
-
-//  klo gni knapa
-//cara dia tau klo lg ngitung data keseluruhan sama berdasarkan usia gmn dh
-    db.collection("penduduk").count().get().then(
-          (res) => datacount = res.count,
-          onError: (e) => print("Error completing: $e"),
-        );
-
-    db
-        .collection("penduduk")
-        .where("age", isGreaterThan: 10)
-        .count()
-        .get()
-        .then(
-          //yg iini lho dia pke variabel yg sama kayak yg diatas, trs gmn? buat beda2 kh variablenya?
-          (res) => datacountAge = res.count,
-          //buat nampung jumlah data berdasarkan usia
-          onError: (e) => print("Error completing: $e"),
-        );
-
-    void getDataAge() {}
-    //nah ini gimana caranya klo ada 2 func yg berbeda trs dipanggil variebel yg sama scr bersamaan?
-// yg mn??
     return AspectRatio(
       aspectRatio: 2.1,
       child: Container(
@@ -115,10 +90,17 @@ class PieChart2State extends State<PieChartSample2> {
                           SizedBox(
                             width: 18,
                           ),
-                          Indicator(
-                            color: AppColors.contentColorBlue,
-                            text: 'Lansia :  32 Orang',
-                            isSquare: true,
+                          GetBuilder<FromDataController>(
+                            init: FromDataController(),
+                            initState: (_) {},
+                            builder: (FromDataController) {
+                              return Indicator(
+                                color: AppColors.contentColorBlue,
+                                text: "Lansia : ${FromDataController.numlansia}",
+                                //  'Lansia : ${FromdataController.getNumLansia()}',
+                                isSquare: true,
+                              );
+                            },
                           ),
                         ],
                       ),
@@ -155,29 +137,29 @@ class PieChart2State extends State<PieChartSample2> {
                       SizedBox(
                         height: 4,
                       ),
-                      // Row(
-                      //   children: [
-                      //     SizedBox(
-                      //       width: 18,
-                      //     ),
-                      //     Indicator(
-                      //       color: AppColors.contentColorPink,
-                      //       text: 'Balita : 3 anak',
-                      //       isSquare: true,
-                      //     ),
-                      //   ],
-                      // ),
+                      Row(
+                        children: [
+                          SizedBox(
+                            width: 18,
+                          ),
+                          Indicator(
+                            color: AppColors.contentColorPink,
+                            text: 'Balita : 3 anak',
+                            isSquare: true,
+                          ),
+                        ],
+                      ),
                       // const SizedBox(
                       //   height: 13.5,
                       // ),
-                      Text(
-                        //lm bgt ngereload dpt datanya
-                        "Total : $datacount",
-                        style: TextStyle(
-                            color: Colors.yellow[600],
-                            fontWeight: FontWeight.bold,
-                            fontSize: 19),
-                      ),
+                      // Text(
+                      //
+                      //   "Total : $datacount",
+                      //   style: TextStyle(
+                      //       color: Colors.yellow[600],
+                      //       fontWeight: FontWeight.bold,
+                      //       fontSize: 19),
+                      // ),
                       // ElevatedButton(
                       //     onPressed: () async {
                       //       // db.collection("penduduk").count().get().then(

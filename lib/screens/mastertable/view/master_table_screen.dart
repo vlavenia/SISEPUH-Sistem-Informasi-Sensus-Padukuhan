@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:sisepuh/controller/bottomnavbar_controller.dart';
-import 'package:sisepuh/screens/mastertable/widget/form_view.dart';
+import 'package:sisepuh/screens/mastertable/view/formview.dart';
 import 'package:sisepuh/widget/bottomnav_widget.dart';
 import 'package:sisepuh/widget/header_nav.dart';
 import 'package:sisepuh/screens/Home/widget/navigation_drawer.dart';
@@ -30,7 +30,7 @@ class _MasterTableScreenState extends State<MasterTableScreen> {
               padding: const EdgeInsets.all(15),
               child: TextSearchField(),
             ),
-            Streambuilderdata(db: db),
+            Streambuilderdata(),
           ],
         ),
       ),

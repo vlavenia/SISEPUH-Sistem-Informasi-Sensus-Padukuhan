@@ -1,19 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:sisepuh/controller/formdata_controller.dart';
 import 'package:sisepuh/main.dart';
 import 'package:sisepuh/screens/Home/widget/line_chart.dart';
 import 'package:sisepuh/screens/Home/widget/pie_chart.dart';
 
 import 'package:sisepuh/screens/mastertable/widget/streambuilder_data.dart';
+import 'package:sisepuh/widget/indicator_chart.dart';
 
 class HomeScreen extends StatelessWidget {
   // int currentIndexPage = 0;
 
+  var FromdataController = Get.put(FromDataController());
+
   @override
   Widget build(BuildContext context) {
+    // var totalP = FromdataController.NumGenderp /
+    //     (FromdataController.NumGenderp + FromdataController.NumGenderl) *
+    //     100.toInt();
+    // var totalL = FromdataController.NumGenderl /
+    //     (FromdataController.NumGenderp + FromdataController.NumGenderl) *
+    //     100.toInt();
     return CustomScrollView(slivers: [
       SliverAppbarCustom(),
       SliverToBoxAdapter(
         child: Container(
+            padding: EdgeInsets.only(top: 20),
             width: MediaQuery.of(context).size.width - 50,
             child: Column(
               children: [
@@ -21,7 +33,7 @@ class HomeScreen extends StatelessWidget {
                 //     //padding: const EdgeInsets.symmetric(vertical: 16),
                 //     ),
                 Container(
-                  height: 150,
+                  padding: EdgeInsets.all(12),
                   width: MediaQuery.of(context).size.width - 50,
                   decoration: const BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(20)),
@@ -37,6 +49,7 @@ class HomeScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
+                        textAlign: TextAlign.center,
                         "Jumlah Penduduk Kentolan Lor Rt 02",
                         style: TextStyle(
                           color: Colors.white,
@@ -44,15 +57,76 @@ class HomeScreen extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(
-                        height: 15.0,
+                        height: 10.0,
                       ),
-                      Text(
-                        "435 Penduduk",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 32,
-                          fontWeight: FontWeight.bold,
+                      GetBuilder<FromDataController>(
+                        init: FromDataController(),
+                        builder: (controller) => Text(
+                          "${(FromdataController.NumGenderp + FromdataController.NumGenderl)} Penduduk",
+                          //"${controller.NumGender} Penduduk",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 32,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
+                      ),
+                      const SizedBox(
+                        height: 17.0,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Container(
+                            child: Row(
+                              children: [
+                                SizedBox(
+                                  width: 18,
+                                ),
+                                GetBuilder<FromDataController>(
+                                  init: FromDataController(),
+                                  initState: (_) =>
+                                      FromdataController.getNumGender(
+                                          "perempuan"),
+                                  builder: (FromDataController) {
+                                    return Indicator(
+                                      color: Colors.pink,
+                                      text:
+                                          "Perempuan ${(FromdataController.NumGenderp / (FromdataController.NumGenderp + FromdataController.NumGenderl) * 100).toInt()}% : ${FromdataController.NumGenderp}",
+                                      //'Perempuan 75% : ${FromdataController.getNumGender("perempuan")} ',
+                                      textColor: Colors.white,
+                                      isSquare: true,
+                                    );
+                                  },
+                                ),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            child: Row(
+                              children: [
+                                SizedBox(
+                                  width: 18,
+                                ),
+                                GetBuilder<FromDataController>(
+                                  init: FromDataController(),
+                                  initState: (_) =>
+                                      FromdataController.getNumGender(
+                                          "laki-laki"),
+                                  builder: (FromDataController) {
+                                    return Indicator(
+                                      color: Colors.amber,
+                                      text:
+                                          'Laki-Laki ${(FromdataController.NumGenderl / (FromdataController.NumGenderp + FromdataController.NumGenderl) * 100).toInt()}% : ${FromdataController.NumGenderl} ',
+                                      textColor: Colors.white,
+                                      isSquare: true,
+                                    );
+                                  },
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
@@ -96,7 +170,6 @@ class HomeScreen extends StatelessWidget {
                   height: 10.0,
                 ),
                 Streambuilderdata(
-                  db: db,
                   takes: 2,
                 ),
 
@@ -120,6 +193,9 @@ class SliverAppbarCustom extends StatelessWidget {
   Widget build(BuildContext context) {
     return SliverAppBar.medium(
         expandedHeight: 140,
+        stretch: true,
+        //onStretchTrigger: (){},
+        //flexibleSpace: FlexibleSpaceBar(),
         actions: [
           const Icon(
             Icons.shopping_cart,

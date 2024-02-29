@@ -1,16 +1,17 @@
-// ignore_for_file: camel_case_types, prefer_typing_uninitialized_variables
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
-import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:random_string/random_string.dart';
-import 'package:sisepuh/main.dart';
-import 'package:sisepuh/widget/header_nav.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:intl/intl.dart';
+import 'package:sisepuh/controller/formdata_controller.dart';
+import 'package:sisepuh/screens/Home/View/home_screen.dart';
+import 'package:sisepuh/widget/bottomnav_widget.dart';
+import 'package:sisepuh/widget/header_nav.dart';
 
-class FormView extends StatefulWidget {
-  FormView({Key? key}) : super(key: key);
+class FormView extends StatelessWidget {
+  FormView({super.key});
+  var FromdataController = Get.put(FromDataController());
+  var formattedDate = DateTime.now().toString();
   final List<String> genderItems = [
     'Laki-Laki',
     'Perempuan',
@@ -23,22 +24,8 @@ class FormView extends StatefulWidget {
     'RT05',
     'RT06',
   ];
-  
   @override
-  State<FormView> createState() => _FormViewState();
-}
-
-class _FormViewState extends State<FormView> {
-  @override
-  DateTime selectedDate = DateTime.now();
-  TextEditingController namecontroller = TextEditingController();
-  TextEditingController birthdatecontroller = TextEditingController();
-  var formattedDate = DateTime.now().toString();
-   int _countagedewasa = 0;
-
   Widget build(BuildContext context) {
-    String? onselectedGender;
-    String? onselectedrt;
     return Scaffold(
       appBar: headerNav(title: "Form Input Data Penduduk"),
       body: SingleChildScrollView(
@@ -53,7 +40,7 @@ class _FormViewState extends State<FormView> {
                     padding: const EdgeInsets.symmetric(horizontal: 30),
                     margin: const EdgeInsets.only(top: 20),
                     child: TextFormField(
-                      controller: namecontroller,
+                      controller: FromdataController.namaC,
                       // initialValue: 'admin@gmail.com',
                       decoration: InputDecoration(
                         labelText: 'Nama',
@@ -100,7 +87,7 @@ class _FormViewState extends State<FormView> {
                         ' Pilih Gender',
                         style: TextStyle(fontSize: 14),
                       ),
-                      items: widget.genderItems
+                      items: genderItems
                           .map((item) => DropdownMenuItem<String>(
                                 value: item,
                                 child: Text(
@@ -118,7 +105,7 @@ class _FormViewState extends State<FormView> {
                         return null;
                       },
                       onChanged: (value) {
-                        onselectedGender = value;
+                        //onselectedGender = value;
                       },
                       onSaved: (value) {},
                       buttonStyleData: const ButtonStyleData(
@@ -161,7 +148,7 @@ class _FormViewState extends State<FormView> {
                         ' RT Berapa?',
                         style: TextStyle(fontSize: 14),
                       ),
-                      items: widget.rtItems
+                      items: rtItems
                           .map((item) => DropdownMenuItem<String>(
                                 value: item,
                                 child: Text(
@@ -179,7 +166,7 @@ class _FormViewState extends State<FormView> {
                         return null;
                       },
                       onChanged: (value) {
-                        onselectedrt = value;
+                        // onselectedrt = value;
                       },
                       onSaved: (value) {
                         // selectedValue = value.toString();
@@ -217,33 +204,11 @@ class _FormViewState extends State<FormView> {
                         // foreground
                         ),
                     onPressed: () {
-                      String id = randomAlphaNumeric(10);
-                      final user = <String, dynamic>{
-                        "id": id,
-                        "name": namecontroller.text.toString(),
-                        "birthdate": formattedDate,
-                        "gender": onselectedGender,
-                        "rt": onselectedrt
-                      };
+                      FromdataController.addDataMethods(
+                          formattedDate: formattedDate);
 
-                      // Add a new document with a generated ID
-                      FirebaseFirestore.instance
-                          .collection("penduduk").add(user).then(
-                          (DocumentReference doc) => print(
-                              'DocumentSnapshot added with ID: ${doc.id}'));
-
-                      setState((){
-                        _getNumGender() async {
-                          //Query Firestore
-                          var getNumGender = await db
-                              .where('gender', isGreaterThanOrEqualTo: 50)
-                              .get();
-                          setState(() {
-                            _countagedewasa = getNumGender.size;
-                          });
-                        }
-
-                      });
+                      FromdataController.getDataMethods();
+                      Get.to(bottomNavbar());
                     },
                     child: Text("Simpan")),
               )

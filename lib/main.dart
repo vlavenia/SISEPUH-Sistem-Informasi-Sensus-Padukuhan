@@ -6,10 +6,11 @@ import 'package:sisepuh/constant.dart';
 import 'package:sisepuh/screens/dashboard/view/dashboard_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:sisepuh/screens/Home/View/home_screen.dart';
+import 'package:sisepuh/screens/mastertable/widget/form_view.dart';
 import 'package:sisepuh/widget/bottomnav_widget.dart';
 import 'firebase_options.dart';
 
-var db = FirebaseFirestore.instance;
+var db = FirebaseFirestore.instance.collection('penduduk');
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -40,7 +41,9 @@ class MyApp extends StatelessWidget {
       //       .apply(bodyColor: Colors.white),
       //   canvasColor: secondaryColor,
       // ),
-      home: bottomNavbar(),
+      home:
+          //FormView()
+          bottomNavbar(),
     );
   }
 }

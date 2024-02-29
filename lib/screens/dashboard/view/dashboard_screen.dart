@@ -34,7 +34,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
               height: 45.0,
             ),
             Streambuilderdata(
-              db: db,
               takes: 2,
             ),
             //recentData(),
