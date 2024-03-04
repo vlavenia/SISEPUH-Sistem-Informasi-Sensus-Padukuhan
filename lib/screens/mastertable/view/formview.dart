@@ -11,7 +11,7 @@ import 'package:sisepuh/widget/header_nav.dart';
 class FormView extends StatelessWidget {
   FormView({super.key});
   var FromdataController = Get.put(FromDataController());
-  var formattedDate = DateTime.now().toString();
+  //var formattedDate = DateTime.now().toString();
   final List<String> genderItems = [
     'Laki-Laki',
     'Perempuan',
@@ -24,6 +24,10 @@ class FormView extends StatelessWidget {
     'RT05',
     'RT06',
   ];
+
+  var difference;
+  var countAge;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,8 +65,13 @@ class FormView extends StatelessWidget {
                       maximumDate: DateTime.now(),
                       initialDateTime: DateTime(1970, 1, 1),
                       onDateTimeChanged: (DateTime newDateTime) {
-                        formattedDate =
+                        FromdataController.formattedDate =
                             DateFormat('yyyy-MM-dd').format(newDateTime);
+                        difference = DateTime.now()
+                            .difference(DateTime.parse(
+                                FromdataController.formattedDate))
+                            .inDays;
+                        countAge = (difference ~/ 365).round();
                       },
                     ),
                   ),
@@ -205,10 +214,19 @@ class FormView extends StatelessWidget {
                         ),
                     onPressed: () {
                       FromdataController.addDataMethods(
-                          formattedDate: formattedDate);
-
+                          formattedDate: FromdataController.formattedDate,
+                          countAge: countAge);
+                      // print(
+                      //     "data formattedDate: ${FromdataController.formattedDate}");
                       FromdataController.getDataMethods();
-                      Get.to(bottomNavbar());
+                     
+
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => bottomNavbar()),
+                      );
+
+                      //Get.to(bottomNavbar());
                     },
                     child: Text("Simpan")),
               )

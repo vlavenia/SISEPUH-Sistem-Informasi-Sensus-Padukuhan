@@ -26,6 +26,8 @@ class Streambuilderdata extends StatelessWidget {
                   color: Color.fromARGB(255, 68, 137, 255),
                   fontWeight: FontWeight.bold,
                   fontSize: 15),
+              sortColumnIndex: 0,
+              sortAscending: false,
               columns: [
                 DataColumn(label: Text("Nama")),
                 DataColumn(label: Text("Tgl Lahir")),

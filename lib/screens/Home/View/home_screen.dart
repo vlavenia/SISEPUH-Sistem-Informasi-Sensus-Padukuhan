@@ -1,10 +1,12 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sisepuh/LineChartData.dart';
+import 'package:sisepuh/controller/auth_controller.dart';
 import 'package:sisepuh/controller/formdata_controller.dart';
 import 'package:sisepuh/main.dart';
 import 'package:sisepuh/screens/Home/widget/line_chart.dart';
 import 'package:sisepuh/screens/Home/widget/pie_chart.dart';
-
 import 'package:sisepuh/screens/mastertable/widget/streambuilder_data.dart';
 import 'package:sisepuh/widget/indicator_chart.dart';
 
@@ -12,15 +14,10 @@ class HomeScreen extends StatelessWidget {
   // int currentIndexPage = 0;
 
   var FromdataController = Get.put(FromDataController());
+  var AuthC = AuthController();
 
   @override
   Widget build(BuildContext context) {
-    // var totalP = FromdataController.NumGenderp /
-    //     (FromdataController.NumGenderp + FromdataController.NumGenderl) *
-    //     100.toInt();
-    // var totalL = FromdataController.NumGenderl /
-    //     (FromdataController.NumGenderp + FromdataController.NumGenderl) *
-    //     100.toInt();
     return CustomScrollView(slivers: [
       SliverAppbarCustom(),
       SliverToBoxAdapter(
@@ -81,7 +78,7 @@ class HomeScreen extends StatelessWidget {
                             child: Row(
                               children: [
                                 SizedBox(
-                                  width: 18,
+                                  width: 15,
                                 ),
                                 GetBuilder<FromDataController>(
                                   init: FromDataController(),
@@ -151,7 +148,7 @@ class HomeScreen extends StatelessWidget {
                           "Data Terbaru",
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            fontSize: 20,
+                            fontSize: 22,
                             //color: Color.fromARGB(255, 68, 137, 255),
                           ),
                         ),
@@ -176,7 +173,7 @@ class HomeScreen extends StatelessWidget {
                 const SizedBox(
                   height: 15.0,
                 ),
-                LineChartSample2()
+                LineChartSample2(),
               ],
             )),
       )
@@ -197,9 +194,15 @@ class SliverAppbarCustom extends StatelessWidget {
         //onStretchTrigger: (){},
         //flexibleSpace: FlexibleSpaceBar(),
         actions: [
-          const Icon(
-            Icons.shopping_cart,
-          ),
+          IconButton(
+            onPressed: () {
+              FirebaseAuth.instance.signOut(); //wkwkw
+            },
+            icon: const Icon(
+              Icons.exit_to_app_outlined,
+              size: 24.0,
+            ),
+          )
         ],
         leading: const Icon(
           Icons.menu_rounded,

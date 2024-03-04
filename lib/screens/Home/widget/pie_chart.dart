@@ -35,29 +35,36 @@ class PieChart2State extends State<PieChartSample2> {
               child: Expanded(
                 child: AspectRatio(
                   aspectRatio: 1,
-                  child: PieChart(
-                    PieChartData(
-                      pieTouchData: PieTouchData(
-                        touchCallback: (FlTouchEvent event, pieTouchResponse) {
-                          setState(() {
-                            if (!event.isInterestedForInteractions ||
-                                pieTouchResponse == null ||
-                                pieTouchResponse.touchedSection == null) {
-                              touchedIndex = -1;
-                              return;
-                            }
-                            touchedIndex = pieTouchResponse
-                                .touchedSection!.touchedSectionIndex;
-                          });
-                        },
-                      ),
-                      borderData: FlBorderData(
-                        show: false,
-                      ),
-                      sectionsSpace: 0,
-                      centerSpaceRadius: 40,
-                      sections: showingSections(),
-                    ),
+                  child: GetBuilder<FromDataController>(
+                    init: FromDataController(),
+                    initState: (_) => FromdataController.getNumUsia(),
+                    builder: (_) {
+                      return PieChart(
+                        PieChartData(
+                          pieTouchData: PieTouchData(
+                            touchCallback:
+                                (FlTouchEvent event, pieTouchResponse) {
+                              setState(() {
+                                if (!event.isInterestedForInteractions ||
+                                    pieTouchResponse == null ||
+                                    pieTouchResponse.touchedSection == null) {
+                                  touchedIndex = -1;
+                                  return;
+                                }
+                                touchedIndex = pieTouchResponse
+                                    .touchedSection!.touchedSectionIndex;
+                              });
+                            },
+                          ),
+                          borderData: FlBorderData(
+                            show: false,
+                          ),
+                          sectionsSpace: 0,
+                          centerSpaceRadius: 40,
+                          sections: showingSections(),
+                        ),
+                      );
+                    },
                   ),
                 ),
               ),
@@ -92,11 +99,13 @@ class PieChart2State extends State<PieChartSample2> {
                           ),
                           GetBuilder<FromDataController>(
                             init: FromDataController(),
-                            initState: (_) {},
+                            initState: (_) =>
+                                FromdataController.getNumUsia(countAge: 46),
                             builder: (FromDataController) {
                               return Indicator(
                                 color: AppColors.contentColorBlue,
-                                text: "Lansia : ${FromDataController.numlansia}",
+                                text:
+                                    "Lansia : ${FromDataController.numLansia} orang",
                                 //  'Lansia : ${FromdataController.getNumLansia()}',
                                 isSquare: true,
                               );
@@ -112,10 +121,18 @@ class PieChart2State extends State<PieChartSample2> {
                           SizedBox(
                             width: 18,
                           ),
-                          Indicator(
-                            color: AppColors.contentColorOrange,
-                            text: 'Dewasa : $datacountAge',
-                            isSquare: true,
+                          GetBuilder<FromDataController>(
+                            init: FromDataController(),
+                            initState: (_) =>
+                                FromdataController.getNumUsia(countAge: 26),
+                            builder: (FromDataController) {
+                              return Indicator(
+                                color: AppColors.contentColorOrange,
+                                text:
+                                    'Dewasa : ${FromdataController.numDewasa} orang',
+                                isSquare: true,
+                              );
+                            },
                           ),
                         ],
                       ),
@@ -127,10 +144,18 @@ class PieChart2State extends State<PieChartSample2> {
                           SizedBox(
                             width: 18,
                           ),
-                          Indicator(
-                            color: AppColors.contentColorPurple,
-                            text: 'Remaja: 30 orang',
-                            isSquare: true,
+                          GetBuilder<FromDataController>(
+                            init: FromDataController(),
+                            initState: (_) =>
+                                FromdataController.getNumUsia(countAge: 12),
+                            builder: (_) {
+                              return Indicator(
+                                color: AppColors.contentColorPurple,
+                                text:
+                                    'Remaja: ${FromdataController.numRemaja} orang',
+                                isSquare: true,
+                              );
+                            },
                           ),
                         ],
                       ),
@@ -142,10 +167,18 @@ class PieChart2State extends State<PieChartSample2> {
                           SizedBox(
                             width: 18,
                           ),
-                          Indicator(
-                            color: AppColors.contentColorPink,
-                            text: 'Balita : 3 anak',
-                            isSquare: true,
+                          GetBuilder<FromDataController>(
+                            init: FromDataController(),
+                            initState: (_) =>
+                                FromdataController.getNumUsia(countAge: 5),
+                            builder: (_) {
+                              return Indicator(
+                                color: AppColors.contentColorPink,
+                                text:
+                                    'Anak : ${FromdataController.numAnak} orang',
+                                isSquare: true,
+                              );
+                            },
                           ),
                         ],
                       ),
@@ -193,8 +226,11 @@ class PieChart2State extends State<PieChartSample2> {
         case 0:
           return PieChartSectionData(
             color: AppColors.contentColorBlue,
-            value: 40,
-            title: '40%',
+            value: (FromdataController.numLansia /
+                    FromdataController.presentaseUsia) *
+                100,
+            title:
+                '${((FromdataController.numLansia / FromdataController.presentaseUsia) * 100).toInt()}%',
             radius: radius,
             titleStyle: TextStyle(
               fontSize: fontSize,
@@ -206,8 +242,11 @@ class PieChart2State extends State<PieChartSample2> {
         case 1:
           return PieChartSectionData(
             color: AppColors.contentColorOrange,
-            value: 30,
-            title: '30%',
+            value: (FromdataController.numDewasa /
+                    FromdataController.presentaseUsia) *
+                100,
+            title:
+                '${((FromdataController.numDewasa / FromdataController.presentaseUsia) * 100).toInt()}%',
             radius: radius,
             titleStyle: TextStyle(
               fontSize: fontSize,
@@ -219,8 +258,11 @@ class PieChart2State extends State<PieChartSample2> {
         case 2:
           return PieChartSectionData(
             color: AppColors.contentColorPurple,
-            value: 15,
-            title: '15%',
+            value: (FromdataController.numRemaja /
+                    FromdataController.presentaseUsia) *
+                100,
+            title:
+                '${((FromdataController.numRemaja / FromdataController.presentaseUsia) * 100).toInt()}%',
             radius: radius,
             titleStyle: TextStyle(
               fontSize: fontSize,
@@ -232,8 +274,11 @@ class PieChart2State extends State<PieChartSample2> {
         case 3:
           return PieChartSectionData(
             color: AppColors.contentColorPink,
-            value: 15,
-            title: '15%',
+            value: (FromdataController.numAnak /
+                    FromdataController.presentaseUsia) *
+                100,
+            title:
+                '${((FromdataController.numAnak / FromdataController.presentaseUsia) * 100).toInt()}%',
             radius: radius,
             titleStyle: TextStyle(
               fontSize: fontSize,
