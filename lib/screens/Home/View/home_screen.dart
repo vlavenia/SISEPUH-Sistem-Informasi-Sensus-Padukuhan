@@ -8,16 +8,22 @@ import 'package:sisepuh/main.dart';
 import 'package:sisepuh/screens/Home/widget/line_chart.dart';
 import 'package:sisepuh/screens/Home/widget/pie_chart.dart';
 import 'package:sisepuh/screens/mastertable/widget/streambuilder_data.dart';
+import 'package:sisepuh/services/auth_service.dart';
+import 'package:sisepuh/services/firestore_firebase.dart';
 import 'package:sisepuh/widget/indicator_chart.dart';
 
 class HomeScreen extends StatelessWidget {
   // int currentIndexPage = 0;
 
   var FromdataController = Get.put(FromDataController());
+  var getData = Get.put(DatabaseMethods());
   var AuthC = AuthController();
 
   @override
   Widget build(BuildContext context) {
+    var dataUser = getData.getUserMethods();
+    print('=> [home_screen] dataCurrentUser ${getData.getUser}');
+
     return CustomScrollView(slivers: [
       SliverAppbarCustom(),
       SliverToBoxAdapter(
@@ -45,13 +51,19 @@ class HomeScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
-                        textAlign: TextAlign.center,
-                        "Jumlah Penduduk Kentolan Lor Rt 02",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 23,
-                        ),
+                      GetBuilder<DatabaseMethods>(
+                        init: DatabaseMethods(),
+                        initState: (_) {},
+                        builder: (DatabaseMethods) {
+                          return Text(
+                            textAlign: TextAlign.center,
+                            "Jumlah Penduduk Kentolan Lor Rt 02 - ${DatabaseMethods.getUser}",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 23,
+                            ),
+                          );
+                        },
                       ),
                       const SizedBox(
                         height: 10.0,
@@ -182,7 +194,9 @@ class HomeScreen extends StatelessWidget {
 }
 
 class SliverAppbarCustom extends StatelessWidget {
-  const SliverAppbarCustom({
+  var AuthC = AuthController();
+
+  SliverAppbarCustom({
     super.key,
   });
 
@@ -196,7 +210,8 @@ class SliverAppbarCustom extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () {
-              FirebaseAuth.instance.signOut(); //wkwkw
+              //signout
+              AuthC.signOutController();
             },
             icon: const Icon(
               Icons.exit_to_app_outlined,

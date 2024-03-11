@@ -10,14 +10,15 @@ class AuthController extends GetxController {
 
   var isLoggedIn = false.obs;
 
-  void onInit(){
+  void onInit() {
     super.onInit();
     _authServices.authStateChanges.listen((user) {
-      isLoggedIn.value = user != null; 
-     });
+      isLoggedIn.value = user != null;
+    });
   }
 
-  Future<void> loginController(TextEditingController email, TextEditingController password) async {
+  Future<void> loginController(
+      TextEditingController email, TextEditingController password) async {
     try {
       await _authServices.login(email.text, password.text);
     } catch (e) {
@@ -40,10 +41,17 @@ class AuthController extends GetxController {
           'password': password,
         });
       });
-      
     } catch (e) {
       print("Eror :$e");
     }
   }
 
+  Future<void> signOutController() async {
+    try {
+      await _authServices.signOut();
+      
+    } catch (e) {
+      print("Eror :$e");
+    }
+  }
 }
