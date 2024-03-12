@@ -1,12 +1,10 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sisepuh/controller/formdata_controller.dart';
-import 'package:sisepuh/main.dart';
 import 'package:sisepuh/resources/app_color.dart';
+import 'package:sisepuh/services/countfirebase_service.dart';
 import 'package:sisepuh/widget/indicator_chart.dart';
-import 'package:get/get.dart';
 
 class PieChartSample2 extends StatefulWidget {
   const PieChartSample2({super.key});
@@ -22,12 +20,14 @@ class PieChart2State extends State<PieChartSample2> {
 
   var FromdataController = Get.put(FromDataController());
 
+  var countFirebase = Get.put(CountFirebase());
+
   @override
   Widget build(BuildContext context) {
     return AspectRatio(
       aspectRatio: 2.1,
       child: Container(
-        padding: EdgeInsets.only(top: 30, left: 40),
+        padding: EdgeInsets.only(top: 17, left: 40),
         child: Row(
           children: <Widget>[
             Container(
@@ -35,9 +35,9 @@ class PieChart2State extends State<PieChartSample2> {
               child: Expanded(
                 child: AspectRatio(
                   aspectRatio: 1,
-                  child: GetBuilder<FromDataController>(
-                    init: FromDataController(),
-                    initState: (_) => FromdataController.getNumUsia(),
+                  child: GetBuilder<CountFirebase>(
+                    init: CountFirebase(),
+                    // initState: (_) => countServices.getNumUsia(),
                     builder: (_) {
                       return PieChart(
                         PieChartData(
@@ -85,7 +85,7 @@ class PieChart2State extends State<PieChartSample2> {
                   ),
                 ),
                 const SizedBox(
-                  height: 17.0,
+                  height: 10.0,
                 ),
                 Container(
                   width: 170,
@@ -97,15 +97,13 @@ class PieChart2State extends State<PieChartSample2> {
                           SizedBox(
                             width: 18,
                           ),
-                          GetBuilder<FromDataController>(
-                            init: FromDataController(),
-                            initState: (_) =>
-                                FromdataController.getNumUsia(countAge: 46),
-                            builder: (FromDataController) {
+                          GetBuilder<CountFirebase>(
+                            init: CountFirebase(),
+                            initState: (_) => countFirebase.getCountBirth(46),
+                            builder: (CountFirebase) {
                               return Indicator(
                                 color: AppColors.contentColorBlue,
-                                text:
-                                    "Lansia : ${FromDataController.numLansia} orang",
+                                text: "Lansia : ${countFirebase.numLansia}",
                                 //  'Lansia : ${FromdataController.getNumLansia()}',
                                 isSquare: true,
                               );
@@ -121,15 +119,13 @@ class PieChart2State extends State<PieChartSample2> {
                           SizedBox(
                             width: 18,
                           ),
-                          GetBuilder<FromDataController>(
-                            init: FromDataController(),
-                            initState: (_) =>
-                                FromdataController.getNumUsia(countAge: 26),
-                            builder: (FromDataController) {
+                          GetBuilder<CountFirebase>(
+                            init: CountFirebase(),
+                            initState: (_) => countFirebase.getCountBirth(26),
+                            builder: (CountFirebase) {
                               return Indicator(
                                 color: AppColors.contentColorOrange,
-                                text:
-                                    'Dewasa : ${FromdataController.numDewasa} orang',
+                                text: 'Dewasa : ${CountFirebase.numDewasa}',
                                 isSquare: true,
                               );
                             },
@@ -144,15 +140,13 @@ class PieChart2State extends State<PieChartSample2> {
                           SizedBox(
                             width: 18,
                           ),
-                          GetBuilder<FromDataController>(
-                            init: FromDataController(),
-                            initState: (_) =>
-                                FromdataController.getNumUsia(countAge: 12),
-                            builder: (_) {
+                          GetBuilder<CountFirebase>(
+                            init: CountFirebase(),
+                            initState: (_) => countFirebase.getCountBirth(12),
+                            builder: (CountFirebase) {
                               return Indicator(
                                 color: AppColors.contentColorPurple,
-                                text:
-                                    'Remaja: ${FromdataController.numRemaja} orang',
+                                text: 'Remaja: ${CountFirebase.numRemaja}',
                                 isSquare: true,
                               );
                             },
@@ -167,15 +161,34 @@ class PieChart2State extends State<PieChartSample2> {
                           SizedBox(
                             width: 18,
                           ),
-                          GetBuilder<FromDataController>(
-                            init: FromDataController(),
-                            initState: (_) =>
-                                FromdataController.getNumUsia(countAge: 5),
-                            builder: (_) {
+                          GetBuilder<CountFirebase>(
+                            init: CountFirebase(),
+                            initState: (_) => countFirebase.getCountBirth(5),
+                            builder: (CountFirebase) {
+                              return Indicator(
+                                color: Color.fromARGB(255, 27, 207, 69),
+                                text: 'Anak : ${CountFirebase.numAnak}',
+                                isSquare: true,
+                              );
+                            },
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 4,
+                      ),
+                      Row(
+                        children: [
+                          SizedBox(
+                            width: 18,
+                          ),
+                          GetBuilder<CountFirebase>(
+                            init: CountFirebase(),
+                            initState: (_) => countFirebase.getCountBirth(6),
+                            builder: (CountFirebase) {
                               return Indicator(
                                 color: AppColors.contentColorPink,
-                                text:
-                                    'Anak : ${FromdataController.numAnak} orang',
+                                text: 'Balita : ${CountFirebase.numBalita}',
                                 isSquare: true,
                               );
                             },
@@ -226,11 +239,10 @@ class PieChart2State extends State<PieChartSample2> {
         case 0:
           return PieChartSectionData(
             color: AppColors.contentColorBlue,
-            value: (FromdataController.numLansia /
-                    FromdataController.presentaseUsia) *
-                100,
+            value:
+                (countFirebase.numLansia / countFirebase.presentaseUsia) * 100,
             title:
-                '${((FromdataController.numLansia / FromdataController.presentaseUsia) * 100).toInt()}%',
+                '${((countFirebase.numLansia / countFirebase.presentaseUsia) * 100).toInt()}%',
             radius: radius,
             titleStyle: TextStyle(
               fontSize: fontSize,
@@ -242,11 +254,10 @@ class PieChart2State extends State<PieChartSample2> {
         case 1:
           return PieChartSectionData(
             color: AppColors.contentColorOrange,
-            value: (FromdataController.numDewasa /
-                    FromdataController.presentaseUsia) *
-                100,
+            value:
+                (countFirebase.numDewasa / countFirebase.presentaseUsia) * 100,
             title:
-                '${((FromdataController.numDewasa / FromdataController.presentaseUsia) * 100).toInt()}%',
+                '${((countFirebase.numDewasa / countFirebase.presentaseUsia) * 100).toInt()}%',
             radius: radius,
             titleStyle: TextStyle(
               fontSize: fontSize,
@@ -258,11 +269,10 @@ class PieChart2State extends State<PieChartSample2> {
         case 2:
           return PieChartSectionData(
             color: AppColors.contentColorPurple,
-            value: (FromdataController.numRemaja /
-                    FromdataController.presentaseUsia) *
-                100,
+            value:
+                (countFirebase.numRemaja / countFirebase.presentaseUsia) * 100,
             title:
-                '${((FromdataController.numRemaja / FromdataController.presentaseUsia) * 100).toInt()}%',
+                '${((countFirebase.numRemaja / countFirebase.presentaseUsia) * 100).toInt()}%',
             radius: radius,
             titleStyle: TextStyle(
               fontSize: fontSize,
@@ -273,12 +283,26 @@ class PieChart2State extends State<PieChartSample2> {
           );
         case 3:
           return PieChartSectionData(
-            color: AppColors.contentColorPink,
-            value: (FromdataController.numAnak /
-                    FromdataController.presentaseUsia) *
-                100,
+            //contentColorGreen
+            color: Color.fromARGB(255, 27, 207, 69),
+            value: (countFirebase.numAnak / countFirebase.presentaseUsia) * 100,
             title:
-                '${((FromdataController.numAnak / FromdataController.presentaseUsia) * 100).toInt()}%',
+                '${((countFirebase.numAnak / countFirebase.presentaseUsia) * 100).toInt()}%',
+            radius: radius,
+            titleStyle: TextStyle(
+              fontSize: fontSize,
+              fontWeight: FontWeight.bold,
+              color: AppColors.mainTextColor1,
+              shadows: shadows,
+            ),
+          );
+        case 4:
+          return PieChartSectionData(
+            color: AppColors.contentColorPink,
+            value:
+                (countFirebase.numBalita / countFirebase.presentaseUsia) * 100,
+            title:
+                '${((countFirebase.numBalita / countFirebase.presentaseUsia) * 100).toInt()}%',
             radius: radius,
             titleStyle: TextStyle(
               fontSize: fontSize,

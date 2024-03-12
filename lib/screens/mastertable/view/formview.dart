@@ -5,17 +5,20 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:sisepuh/controller/formdata_controller.dart';
 import 'package:sisepuh/screens/Home/View/home_screen.dart';
+import 'package:sisepuh/services/countfirebase_service.dart';
 import 'package:sisepuh/widget/bottomnav_widget.dart';
 import 'package:sisepuh/widget/header_nav.dart';
 
 class FormView extends StatelessWidget {
   FormView({super.key});
   var FromdataController = Get.put(FromDataController());
+  var countFirebase = Get.put(CountFirebase());
   //var formattedDate = DateTime.now().toString();
   final List<String> genderItems = [
-    'Laki-Laki',
-    'Perempuan',
+    'laki-laki',
+    'perempuan',
   ];
+  var selectdedgender;
   final List<String> rtItems = [
     'RT01',
     'RT02',
@@ -113,8 +116,8 @@ class FormView extends StatelessWidget {
                         }
                         return null;
                       },
-                      onChanged: (value) {
-                        //onselectedGender = value;
+                      onChanged: (String? value) {
+                        FromdataController.selectedgender = value;
                       },
                       onSaved: (value) {},
                       buttonStyleData: const ButtonStyleData(
@@ -137,69 +140,69 @@ class FormView extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const SizedBox(
-                    height: 25.0,
-                  ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 30),
-                    child: DropdownButtonFormField2(
-                      isExpanded: true,
-                      decoration: InputDecoration(
-                          // Add Horizontal padding using menuItemStyleData.padding so it matches
-                          // the menu padding when button's width is not specified.
-                          contentPadding:
-                              const EdgeInsets.symmetric(vertical: 16),
-                          border: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.grey))
-                          // Add more decoration..
-                          ),
-                      hint: const Text(
-                        ' RT Berapa?',
-                        style: TextStyle(fontSize: 14),
-                      ),
-                      items: rtItems
-                          .map((item) => DropdownMenuItem<String>(
-                                value: item,
-                                child: Text(
-                                  item,
-                                  style: const TextStyle(
-                                    fontSize: 14,
-                                  ),
-                                ),
-                              ))
-                          .toList(),
-                      validator: (value) {
-                        if (value == null) {
-                          return 'Select Your RT.';
-                        }
-                        return null;
-                      },
-                      onChanged: (value) {
-                        // onselectedrt = value;
-                      },
-                      onSaved: (value) {
-                        // selectedValue = value.toString();
-                      },
-                      buttonStyleData: const ButtonStyleData(
-                        padding: EdgeInsets.only(right: 8),
-                      ),
-                      iconStyleData: const IconStyleData(
-                        icon: Icon(
-                          Icons.arrow_drop_down,
-                          color: Colors.black45,
-                        ),
-                        iconSize: 24,
-                      ),
-                      dropdownStyleData: DropdownStyleData(
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15),
-                            color: Colors.blue.shade400),
-                      ),
-                      menuItemStyleData: const MenuItemStyleData(
-                        padding: EdgeInsets.symmetric(horizontal: 16),
-                      ),
-                    ),
-                  )
+                  // const SizedBox(
+                  //   height: 25.0,
+                  // ),
+                  // Container(
+                  //   padding: const EdgeInsets.symmetric(horizontal: 30),
+                  //   child: DropdownButtonFormField2(
+                  //     isExpanded: true,
+                  //     decoration: InputDecoration(
+                  //         // Add Horizontal padding using menuItemStyleData.padding so it matches
+                  //         // the menu padding when button's width is not specified.
+                  //         contentPadding:
+                  //             const EdgeInsets.symmetric(vertical: 16),
+                  //         border: UnderlineInputBorder(
+                  //             borderSide: BorderSide(color: Colors.grey))
+                  //         // Add more decoration..
+                  //         ),
+                  //     hint: const Text(
+                  //       ' RT Berapa?',
+                  //       style: TextStyle(fontSize: 14),
+                  //     ),
+                  //     items: rtItems
+                  //         .map((item) => DropdownMenuItem<String>(
+                  //               value: item,
+                  //               child: Text(
+                  //                 item,
+                  //                 style: const TextStyle(
+                  //                   fontSize: 14,
+                  //                 ),
+                  //               ),
+                  //             ))
+                  //         .toList(),
+                  //     validator: (value) {
+                  //       if (value == null) {
+                  //         return 'Select Your RT.';
+                  //       }
+                  //       return null;
+                  //     },
+                  //     onChanged: (value) {
+                  //       // onselectedrt = value;
+                  //     },
+                  //     onSaved: (value) {
+                  //       // selectedValue = value.toString();
+                  //     },
+                  //     buttonStyleData: const ButtonStyleData(
+                  //       padding: EdgeInsets.only(right: 8),
+                  //     ),
+                  //     iconStyleData: const IconStyleData(
+                  //       icon: Icon(
+                  //         Icons.arrow_drop_down,
+                  //         color: Colors.black45,
+                  //       ),
+                  //       iconSize: 24,
+                  //     ),
+                  //     dropdownStyleData: DropdownStyleData(
+                  //       decoration: BoxDecoration(
+                  //           borderRadius: BorderRadius.circular(15),
+                  //           color: Colors.blue.shade400),
+                  //     ),
+                  //     menuItemStyleData: const MenuItemStyleData(
+                  //       padding: EdgeInsets.symmetric(horizontal: 16),
+                  //     ),
+                  //   ),
+                  // )
                 ],
               ),
               const SizedBox(
@@ -213,18 +216,20 @@ class FormView extends StatelessWidget {
                         // foreground
                         ),
                     onPressed: () {
-                      FromdataController.addDataMethods(
-                          formattedDate: FromdataController.formattedDate,
-                          countAge: countAge);
+                      FromdataController.AddDataMethod(
+                        formattedDate: FromdataController.formattedDate,
+                        countAge: countAge,
+                      );
                       // print(
                       //     "data formattedDate: ${FromdataController.formattedDate}");
                       FromdataController.getDataMethods();
-                     
 
                       Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) => bottomNavbar()),
                       );
+                      print(
+                          "Data Gender yang didapat ======== ${FromdataController.selectedgender}");
 
                       //Get.to(bottomNavbar());
                     },

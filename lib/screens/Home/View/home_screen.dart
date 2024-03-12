@@ -1,34 +1,95 @@
+import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+// import 'package:get/get.dart';
 import 'package:sisepuh/LineChartData.dart';
 import 'package:sisepuh/controller/auth_controller.dart';
 import 'package:sisepuh/controller/formdata_controller.dart';
-import 'package:sisepuh/main.dart';
-import 'package:sisepuh/screens/Home/widget/line_chart.dart';
+// import 'package:sisepuh/main.dart';
+// import 'package:sisepuh/screens/Home/widget/line_chart.dart';
 import 'package:sisepuh/screens/Home/widget/pie_chart.dart';
+// import 'package:sisepuh/screens/login/login_screens.dart';
+import 'package:sisepuh/screens/mastertable/view/master_table_screen.dart';
 import 'package:sisepuh/screens/mastertable/widget/streambuilder_data.dart';
+import 'package:sisepuh/services/auth_service.dart';
+import 'package:sisepuh/services/countfirebase_service.dart';
+import 'package:sisepuh/services/firebase_service.dart';
 import 'package:sisepuh/widget/indicator_chart.dart';
 
 class HomeScreen extends StatelessWidget {
   // int currentIndexPage = 0;
 
   var FromdataController = Get.put(FromDataController());
-  var AuthC = AuthController();
+  var countFirebase = Get.put(CountFirebase());
+  var AuthDataController = Get.put(AuthController());
+  var AuthServices = AuthService();
 
   @override
   Widget build(BuildContext context) {
-    return CustomScrollView(slivers: [
-      SliverAppbarCustom(),
-      SliverToBoxAdapter(
+    print('debugs=> RT  ${FromdataController.role} ');
+    return Scaffold(
+        body: SafeArea(
+      child: SingleChildScrollView(
+        controller: ScrollController(),
         child: Container(
-            padding: EdgeInsets.only(top: 20),
-            width: MediaQuery.of(context).size.width - 50,
+            padding: EdgeInsets.only(top: 30),
+            width: MediaQuery.of(context).size.width,
             child: Column(
               children: [
-                // Padding(
-                //     //padding: const EdgeInsets.symmetric(vertical: 16),
-                //     ),
+                Container(
+                  width: MediaQuery.of(context).size.width - 50,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Selamat datang",
+                            style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 25,
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 2.0,
+                          ),
+                          GetBuilder<CountFirebase>(
+                            init: CountFirebase(),
+                            initState: (_) => countFirebase.getRtUser(),
+                            builder: (AuthController) {
+                              return Text(
+                                "Pak ketua, ${countFirebase.selectedRt}",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 32,
+                                ),
+                              );
+                            },
+                          ),
+                        ],
+                      ),
+                      IconButton(
+                        onPressed: () async {
+                          //SIgnout secara session login
+                          AuthDataController.signOut();
+
+                          //Ketika Signout berhasil maka akan redirect ke halaman login
+                          // 1.Manggil widget page login => Login->Home.signout->Login
+                          // 2.Redirect back to page login => Home.signout())
+                          // 3. Ketika tidak ada session login, system dapat mendeteksi kemudian diarahkan ke page login => Controller/state management global, Home->  isLogin?false ->redirect back to login
+                        },
+                        icon: const Icon(
+                          Icons.logout_outlined,
+                          size: 24.0,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  height: 25.0,
+                ),
                 Container(
                   padding: EdgeInsets.all(12),
                   width: MediaQuery.of(context).size.width - 50,
@@ -45,22 +106,28 @@ class HomeScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
-                        textAlign: TextAlign.center,
-                        "Jumlah Penduduk Kentolan Lor Rt 02",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 23,
-                        ),
+                      GetBuilder<CountFirebase>(
+                        init: CountFirebase(),
+                        initState: (_) => countFirebase.getRtUser(),
+                        builder: (_) {
+                          return Text(
+                            textAlign: TextAlign.center,
+                            "Jumlah Penduduk Kentolan Lor ${countFirebase.selectedRt}",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 23,
+                            ),
+                          );
+                        },
                       ),
                       const SizedBox(
                         height: 10.0,
                       ),
-                      GetBuilder<FromDataController>(
-                        init: FromDataController(),
-                        builder: (controller) => Text(
-                          "${(FromdataController.NumGenderp + FromdataController.NumGenderl)} Penduduk",
-                          //"${controller.NumGender} Penduduk",
+                      GetBuilder<CountFirebase>(
+                        init: CountFirebase(),
+                        initState: (_) => countFirebase.getallCollection(),
+                        builder: (countFirebase) => Text(
+                          "${(countFirebase.NumLength)} Penduduk",
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 32,
@@ -77,20 +144,15 @@ class HomeScreen extends StatelessWidget {
                           Container(
                             child: Row(
                               children: [
-                                SizedBox(
-                                  width: 15,
-                                ),
-                                GetBuilder<FromDataController>(
-                                  init: FromDataController(),
+                                GetBuilder<CountFirebase>(
+                                  init: CountFirebase(),
                                   initState: (_) =>
-                                      FromdataController.getNumGender(
-                                          "perempuan"),
-                                  builder: (FromDataController) {
+                                      countFirebase.getCountGender("perempuan"),
+                                  builder: (countFirebase) {
                                     return Indicator(
                                       color: Colors.pink,
                                       text:
-                                          "Perempuan ${(FromdataController.NumGenderp / (FromdataController.NumGenderp + FromdataController.NumGenderl) * 100).toInt()}% : ${FromdataController.NumGenderp}",
-                                      //'Perempuan 75% : ${FromdataController.getNumGender("perempuan")} ',
+                                          "Perempuan ${((countFirebase.NumLengthGenderP / (countFirebase.NumLengthGenderL + countFirebase.NumLengthGenderP)) * 100).toInt()}% : ${countFirebase.NumLengthGenderP}",
                                       textColor: Colors.white,
                                       isSquare: true,
                                     );
@@ -103,18 +165,17 @@ class HomeScreen extends StatelessWidget {
                             child: Row(
                               children: [
                                 SizedBox(
-                                  width: 18,
+                                  width: 8,
                                 ),
-                                GetBuilder<FromDataController>(
-                                  init: FromDataController(),
+                                GetBuilder<CountFirebase>(
+                                  init: CountFirebase(),
                                   initState: (_) =>
-                                      FromdataController.getNumGender(
-                                          "laki-laki"),
-                                  builder: (FromDataController) {
+                                      countFirebase.getCountGender("laki-laki"),
+                                  builder: (countFirebase) {
                                     return Indicator(
                                       color: Colors.amber,
                                       text:
-                                          'Laki-Laki ${(FromdataController.NumGenderl / (FromdataController.NumGenderp + FromdataController.NumGenderl) * 100).toInt()}% : ${FromdataController.NumGenderl} ',
+                                          'Laki-Laki ${(countFirebase.NumLengthGenderL / (countFirebase.NumLengthGenderL + countFirebase.NumLengthGenderP) * 100).toInt()}% : ${countFirebase.NumLengthGenderL} ',
                                       textColor: Colors.white,
                                       isSquare: true,
                                     );
@@ -125,6 +186,9 @@ class HomeScreen extends StatelessWidget {
                           ),
                         ],
                       ),
+                      const SizedBox(
+                        height: 17.0,
+                      ),
                     ],
                   ),
                 ),
@@ -134,7 +198,6 @@ class HomeScreen extends StatelessWidget {
                 Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(20)),
-                      // border: Border.all(color: Colors.blueAccent),
                     ),
                     child: PieChartSample2()),
                 Padding(
@@ -152,51 +215,56 @@ class HomeScreen extends StatelessWidget {
                             //color: Color.fromARGB(255, 68, 137, 255),
                           ),
                         ),
-                        Text(
-                          "View All",
-                          style: TextStyle(
-                            fontWeight: FontWeight.w400,
-                            fontSize: 20,
+                        TextButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => MasterTableScreen()),
+                            );
+                          },
+                          child: Text(
+                            "View All",
+                            style: TextStyle(
+                              fontWeight: FontWeight.w400,
+                              fontSize: 20,
+                            ),
                           ),
                         ),
                       ],
                     ),
                   ),
                 ),
-                const SizedBox(
-                  height: 10.0,
-                ),
                 Streambuilderdata(
                   takes: 2,
                 ),
-
                 const SizedBox(
                   height: 15.0,
                 ),
-                LineChartSample2(),
+                //LineChartSample2(),
               ],
             )),
-      )
-    ]);
+      ),
+    ));
   }
 }
 
 class SliverAppbarCustom extends StatelessWidget {
-  const SliverAppbarCustom({
+  SliverAppbarCustom({
     super.key,
   });
-
+  var FromdataController = Get.put(FromDataController());
   @override
   Widget build(BuildContext context) {
     return SliverAppBar.medium(
         expandedHeight: 140,
-        stretch: true,
+        stretch: false,
         //onStretchTrigger: (){},
         //flexibleSpace: FlexibleSpaceBar(),
         actions: [
           IconButton(
             onPressed: () {
-              FirebaseAuth.instance.signOut(); //wkwkw
+              FirebaseAuth.instance.signOut();
             },
             icon: const Icon(
               Icons.exit_to_app_outlined,
@@ -208,6 +276,7 @@ class SliverAppbarCustom extends StatelessWidget {
           Icons.menu_rounded,
         ),
         title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               "Selamat datang",
@@ -216,12 +285,18 @@ class SliverAppbarCustom extends StatelessWidget {
                 fontSize: 25,
               ),
             ),
-            Text(
-              "Pak Poniman",
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 32,
-              ),
+            GetBuilder<FromDataController>(
+              init: FromDataController(),
+              initState: (_) {},
+              builder: (_) {
+                return Text(
+                  "Pak ${FromdataController.namaRole}, Rt 0${FromdataController.role}",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 32,
+                  ),
+                );
+              },
             ),
           ],
         )

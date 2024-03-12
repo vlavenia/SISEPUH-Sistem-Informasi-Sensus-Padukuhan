@@ -92,11 +92,11 @@ class LineChartSample2State extends State<LineChartSample2> {
                   lineBarsData: [
                     LineChartBarData(
                       spots: [
-                        FlSpot(0, 4),
+                        FlSpot(0, 3),
                         FlSpot(2.8, 2),
                         FlSpot(4.9, 5),
                         FlSpot(6.8, 3.1),
-                        FlSpot(9.5, 3),
+                        FlSpot(9.5, 12),
                         FlSpot(11, 4),
                       ],
                       isCurved: true,
@@ -180,13 +180,13 @@ class LineChartSample2State extends State<LineChartSample2> {
     String text;
     switch (value.toInt()) {
       case 1:
-        text = '10K';
+        text = '300';
         break;
       case 3:
-        text = '30k';
+        text = '200';
         break;
       case 5:
-        text = '50k';
+        text = '100';
         break;
       default:
         return Container();

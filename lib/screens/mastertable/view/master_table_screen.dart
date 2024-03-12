@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:sisepuh/controller/bottomnavbar_controller.dart';
 import 'package:sisepuh/screens/mastertable/view/formview.dart';
 import 'package:sisepuh/widget/bottomnav_widget.dart';
@@ -17,11 +18,12 @@ class MasterTableScreen extends StatefulWidget {
 
 class _MasterTableScreenState extends State<MasterTableScreen> {
   var db = FirebaseFirestore.instance;
+  //var FromdataController = Get.put(FromDataController());
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: headerNav(title: 'Data Penduduk RT 02'),
+      appBar: headerNav(title: 'Data Penduduk'),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -30,7 +32,7 @@ class _MasterTableScreenState extends State<MasterTableScreen> {
               padding: const EdgeInsets.all(15),
               child: TextSearchField(),
             ),
-            Streambuilderdata(),
+            Center(child: Streambuilderdata()),
           ],
         ),
       ),

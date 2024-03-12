@@ -15,15 +15,15 @@ class FormView extends StatefulWidget {
     'Laki-Laki',
     'Perempuan',
   ];
-  final List<String> rtItems = [
-    'RT01',
-    'RT02',
-    'RT03',
-    'RT04',
-    'RT05',
-    'RT06',
-  ];
-  
+  // final List<String> rtItems = [
+  //   'RT01',
+  //   'RT02',
+  //   'RT03',
+  //   'RT04',
+  //   'RT05',
+  //   'RT06',
+  // ];
+
   @override
   State<FormView> createState() => _FormViewState();
 }
@@ -34,7 +34,7 @@ class _FormViewState extends State<FormView> {
   TextEditingController namecontroller = TextEditingController();
   TextEditingController birthdatecontroller = TextEditingController();
   var formattedDate = DateTime.now().toString();
-   int _countagedewasa = 0;
+  int _countagedewasa = 0;
 
   Widget build(BuildContext context) {
     String? onselectedGender;
@@ -56,7 +56,7 @@ class _FormViewState extends State<FormView> {
                       controller: namecontroller,
                       // initialValue: 'admin@gmail.com',
                       decoration: InputDecoration(
-                        labelText: 'Nama',
+                        labelText: 'Nama Lengkap',
                         labelStyle: TextStyle(fontSize: 14),
                         border: UnderlineInputBorder(
                             borderSide: BorderSide(color: Colors.grey)),
@@ -97,7 +97,7 @@ class _FormViewState extends State<FormView> {
                         // Add more decoration..
                       ),
                       hint: const Text(
-                        ' Pilih Gender',
+                        ' Pilih Gender dulu',
                         style: TextStyle(fontSize: 14),
                       ),
                       items: widget.genderItems
@@ -113,7 +113,7 @@ class _FormViewState extends State<FormView> {
                           .toList(),
                       validator: (value) {
                         if (value == null) {
-                          return 'Please select gender.';
+                          return 'Please select gender ya.';
                         }
                         return null;
                       },
@@ -141,69 +141,69 @@ class _FormViewState extends State<FormView> {
                       ),
                     ),
                   ),
-                  const SizedBox(
-                    height: 25.0,
-                  ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 30),
-                    child: DropdownButtonFormField2(
-                      isExpanded: true,
-                      decoration: InputDecoration(
-                          // Add Horizontal padding using menuItemStyleData.padding so it matches
-                          // the menu padding when button's width is not specified.
-                          contentPadding:
-                              const EdgeInsets.symmetric(vertical: 16),
-                          border: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.grey))
-                          // Add more decoration..
-                          ),
-                      hint: const Text(
-                        ' RT Berapa?',
-                        style: TextStyle(fontSize: 14),
-                      ),
-                      items: widget.rtItems
-                          .map((item) => DropdownMenuItem<String>(
-                                value: item,
-                                child: Text(
-                                  item,
-                                  style: const TextStyle(
-                                    fontSize: 14,
-                                  ),
-                                ),
-                              ))
-                          .toList(),
-                      validator: (value) {
-                        if (value == null) {
-                          return 'Select Your RT.';
-                        }
-                        return null;
-                      },
-                      onChanged: (value) {
-                        onselectedrt = value;
-                      },
-                      onSaved: (value) {
-                        // selectedValue = value.toString();
-                      },
-                      buttonStyleData: const ButtonStyleData(
-                        padding: EdgeInsets.only(right: 8),
-                      ),
-                      iconStyleData: const IconStyleData(
-                        icon: Icon(
-                          Icons.arrow_drop_down,
-                          color: Colors.black45,
-                        ),
-                        iconSize: 24,
-                      ),
-                      dropdownStyleData: DropdownStyleData(
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15),
-                            color: Colors.blue.shade400),
-                      ),
-                      menuItemStyleData: const MenuItemStyleData(
-                        padding: EdgeInsets.symmetric(horizontal: 16),
-                      ),
-                    ),
-                  )
+                  // const SizedBox(
+                  //   height: 25.0,
+                  // ),
+                  // Container(
+                  //   padding: const EdgeInsets.symmetric(horizontal: 30),
+                  //   child: DropdownButtonFormField2(
+                  //     isExpanded: true,
+                  //     decoration: InputDecoration(
+                  //         // Add Horizontal padding using menuItemStyleData.padding so it matches
+                  //         // the menu padding when button's width is not specified.
+                  //         contentPadding:
+                  //             const EdgeInsets.symmetric(vertical: 16),
+                  //         border: UnderlineInputBorder(
+                  //             borderSide: BorderSide(color: Colors.grey))
+                  //         // Add more decoration..
+                  //         ),
+                  //     hint: const Text(
+                  //       ' RT Berapa?',
+                  //       style: TextStyle(fontSize: 14),
+                  //     ),
+                  //     items: widget.rtItems
+                  //         .map((item) => DropdownMenuItem<String>(
+                  //               value: item,
+                  //               child: Text(
+                  //                 item,
+                  //                 style: const TextStyle(
+                  //                   fontSize: 14,
+                  //                 ),
+                  //               ),
+                  //             ))
+                  //         .toList(),
+                  //     validator: (value) {
+                  //       if (value == null) {
+                  //         return 'Select Your RT.';
+                  //       }
+                  //       return null;
+                  //     },
+                  //     onChanged: (value) {
+                  //       onselectedrt = value;
+                  //     },
+                  //     onSaved: (value) {
+                  //       // selectedValue = value.toString();
+                  //     },
+                  //     buttonStyleData: const ButtonStyleData(
+                  //       padding: EdgeInsets.only(right: 8),
+                  //     ),
+                  //     iconStyleData: const IconStyleData(
+                  //       icon: Icon(
+                  //         Icons.arrow_drop_down,
+                  //         color: Colors.black45,
+                  //       ),
+                  //       iconSize: 24,
+                  //     ),
+                  //     dropdownStyleData: DropdownStyleData(
+                  //       decoration: BoxDecoration(
+                  //           borderRadius: BorderRadius.circular(15),
+                  //           color: Colors.blue.shade400),
+                  //     ),
+                  //     menuItemStyleData: const MenuItemStyleData(
+                  //       padding: EdgeInsets.symmetric(horizontal: 16),
+                  //     ),
+                  //   ),
+                  // )
                 ],
               ),
               const SizedBox(
@@ -223,16 +223,17 @@ class _FormViewState extends State<FormView> {
                         "name": namecontroller.text.toString(),
                         "birthdate": formattedDate,
                         "gender": onselectedGender,
-                        "rt": onselectedrt
+                        //"rt": onselectedrt
                       };
 
                       // Add a new document with a generated ID
                       FirebaseFirestore.instance
-                          .collection("penduduk").add(user).then(
-                          (DocumentReference doc) => print(
+                          .collection("penduduk")
+                          .add(user)
+                          .then((DocumentReference doc) => print(
                               'DocumentSnapshot added with ID: ${doc.id}'));
 
-                      setState((){
+                      setState(() {
                         _getNumGender() async {
                           //Query Firestore
                           var getNumGender = await db
@@ -242,7 +243,6 @@ class _FormViewState extends State<FormView> {
                             _countagedewasa = getNumGender.size;
                           });
                         }
-
                       });
                     },
                     child: Text("Simpan")),
