@@ -8,6 +8,7 @@ class DataModelPenduduk {
   String? gender;
   String? rt;
   int? age;
+  DateTime? dateTime;
 
   DataModelPenduduk({
     this.id,
@@ -16,6 +17,7 @@ class DataModelPenduduk {
     this.gender,
     this.rt,
     this.age,
+    this.dateTime,
   });
 
   factory DataModelPenduduk.fromRawJson(String str) =>
@@ -31,6 +33,7 @@ class DataModelPenduduk {
         gender: json["gender"],
         rt: json["rt"],
         age: json["age"],
+        dateTime: json["dateTime"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -40,5 +43,6 @@ class DataModelPenduduk {
         "gender": gender,
         "rt": rt,
         "age": age,
+        "dateTime": dateTime,
       };
 }

@@ -103,7 +103,7 @@ class PieChart2State extends State<PieChartSample2> {
                             builder: (CountFirebase) {
                               return Indicator(
                                 color: AppColors.contentColorBlue,
-                                text: "Lansia : ${countFirebase.numLansia}",
+                                text: "Lansia : ${CountFirebase.numLansia}",
                                 //  'Lansia : ${FromdataController.getNumLansia()}',
                                 isSquare: true,
                               );
@@ -230,7 +230,7 @@ class PieChart2State extends State<PieChartSample2> {
   }
 
   List<PieChartSectionData> showingSections() {
-    return List.generate(4, (i) {
+    return List.generate(5, (i) {
       final isTouched = i == touchedIndex;
       final fontSize = isTouched ? 25.0 : 16.0;
       final radius = isTouched ? 60.0 : 50.0;

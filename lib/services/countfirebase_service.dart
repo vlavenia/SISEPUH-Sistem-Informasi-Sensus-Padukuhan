@@ -18,7 +18,7 @@ class CountFirebase extends GetxController {
   var numDewasa;
   var numRemaja;
   var numAnak;
-  var  numBalita;
+  var numBalita;
   var presentaseUsia;
   var getGender;
   int NumLength = 0;
@@ -52,46 +52,65 @@ class CountFirebase extends GetxController {
 
   //======================== Get All Data ================================
   Future getallCollection() async {
-    switch (AuthServices.currentUser!.email) {
-      case 'testkentolan2@gmail.com':
-        getdata = await _firebaseService.db
-            .collection("Data KentolanLor ${rtUser[1]}")
-            .get();
-        break;
-      case 'testkentolan3@gmail.com':
-        getdata = await _firebaseService.db
-            .collection("Data KentolanLor ${rtUser[2]}")
-            .get();
-        break;
+    if (AuthServices.currentUser!.email != "dukuhh@gmail.com") {
+      getdata = await _firebaseService.db
+         .collection("Data KentolanLor $selectedRt")
+          .get();
+    } else {
+      getdata = await _firebaseService.db.collection("penduduk").get();
     }
+
+    // switch (AuthServices.currentUser!.email) {
+    //   case 'testkentolan2@gmail.com':
+    //     getdata = await _firebaseService.db
+    //         .collection("Data KentolanLor ${rtUser[1]}")
+    //         .get();
+    //     break;
+    //   case 'testkentolan3@gmail.com':
+    //     getdata = await _firebaseService.db
+    //         .collection("Data KentolanLor ${rtUser[2]}")
+    //         .get();
+    //     break;
+    // }
     NumLength = getdata.docs.length;
     print("ini NumLength nya$NumLength");
     update();
+
+    //  Future getallCollection() async {
+    // if (AuthServices.currentUser!.email != 'dukuhkentolanlor@gmail.com') {
+    //    getdata = await _firebaseService.db
+    //       .collection("penduduk")
+    //       .get();
+    // }else{
+
+    //}
   }
 
   //======================== Get jmlh Count Gender ================================
   Future getCountGender(String gender) async {
-    switch (AuthServices.currentUser!.email) {
-      case 'testkentolan2@gmail.com':
-        selectedRt = rtUser[1];
-        break;
-      case 'testkentolan3@gmail.com':
-        selectedRt = rtUser[2];
-        break;
-      default:
-        for (var i = 0; i < rtUser.length; i++) {
-          var item = rtUser[i];
-          getdata = await _firebaseService.db
-              .collection("Data KentolanLor $item")
-              .get();
-          //NumLength += getdata.docs.length;
-        }
-        break;
-    }
+    // switch (AuthServices.currentUser!.email) {
+    //   case 'testkentolan2@gmail.com':
+    //     selectedRt = rtUser[1];
+    //     break;
+    //   case 'testkentolan3@gmail.com':
+    //     selectedRt = rtUser[2];
+    //     break;
+    //   default:
+    //     for (var i = 0; i < rtUser.length; i++) {
+    //       var item = rtUser[i];
+    //       getdata = await _firebaseService.db
+    //           .collection("Data KentolanLor $item")
+    //           .get();
+    //       //NumLength += getdata.docs.length;
+    //     }
+    //     break;
+    // }
 
     getGender = await db
+        // .collection("Data KentolanLor $selectedRt")
         .collection("Data KentolanLor $selectedRt")
         .where('gender', isEqualTo: gender)
+        .where('rt', isEqualTo: selectedRt)
         .get();
     if (gender == "laki-laki") {
       NumLengthGenderL = getGender.docs.length;
@@ -108,19 +127,20 @@ class CountFirebase extends GetxController {
     // } else {
     //   NumLengthGenderP = getGender.docs.length;
     // }
-    // update();
+    update();
   }
 
   //======================== Get jmlh Count Usia ================================
   Future getCountBirth(var countAge) async {
     if (countAge == 46) {
-      getNum = await _firebaseService.db
+      getNum = await await _firebaseService.db
           .collection("Data KentolanLor $selectedRt")
+         
           .where('age', isGreaterThanOrEqualTo: 46)
           .get();
       numLansia = getNum.docs.length;
-      print("value countAge == 46 berhasil dijalankan");
-      print(" [Count Firebase] value NumLansia : $numLansia ");
+      print("==>value countAge == 46 berhasil dijalankan");
+      print("==> [Count Firebase] value NumLansia : $numLansia");
     } else if (countAge == 26) {
       var getNum = await _firebaseService.db
           .collection("Data KentolanLor $selectedRt")
@@ -143,15 +163,14 @@ class CountFirebase extends GetxController {
           .get();
       numAnak = getNum.docs.length;
       print(" [Count Firebase] value NumAnak : $numAnak");
-    }  else if (countAge == 5) {
+    } else if (countAge == 5) {
       var getNum = await _firebaseService.db
           .collection("Data KentolanLor $selectedRt")
           .where('age', isLessThanOrEqualTo: 5)
           .get();
       numBalita = getNum.docs.length;
       print(" [Count Firebase] value NumAnak : $numBalita");
-    } 
-    else {
+    } else {
       print("tidak ada");
     }
     presentaseUsia = numLansia + numDewasa + numRemaja + numAnak;

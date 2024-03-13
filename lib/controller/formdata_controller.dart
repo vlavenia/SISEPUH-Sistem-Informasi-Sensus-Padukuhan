@@ -83,6 +83,7 @@ class FromDataController extends GetxController {
   // }
 
   //==================== Create Data ===============================//
+
   void AddDataMethod({formattedDate, countAge}) async {
     String id = randomAlphaNumeric(10);
     Rt = countFirebase.selectedRt;
@@ -93,7 +94,8 @@ class FromDataController extends GetxController {
         birthdate: formattedDate,
         gender: selectedgender,
         rt: Rt,
-        age: countAge);
+        age: countAge,
+        dateTime: DateTime.now());
 
     _firebaseService.AddProduct(datapenduduk.toJson(), id, Rt);
 

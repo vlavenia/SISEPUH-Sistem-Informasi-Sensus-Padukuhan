@@ -29,6 +29,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+   
     return GetMaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'SI-Sepuh',
@@ -48,7 +49,6 @@ class MyApp extends StatelessWidget {
         // ),
         home: Obx(() => AuthDataController.isLoggedIn.value
             ? bottomNavbar()
-            : LoginScreen())
-        );
+            : LoginScreen()));
   }
 }

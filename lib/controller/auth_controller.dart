@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -9,12 +10,18 @@ import 'package:sisepuh/widget/bottomnav_widget.dart';
 
 class AuthController extends GetxController {
   var getEmailUser;
-    var selectedRt;
+  var selectedRt;
   var isLoggedIn = false.obs;
   var getUser;
-   var _authServices = AuthService();
+  var currUser;
+  var userRt;
+  var rt;
+  var _authServices = AuthService();
   //User? user = FirebaseAuth.instance.currentUser;
   // late Rx<User?> firebaseUser;
+
+  // GetUser Collection
+  var db = FirebaseFirestore.instance;
 
   void onInit() {
     super.onInit();
@@ -22,6 +29,8 @@ class AuthController extends GetxController {
       isLoggedIn.value = user != null;
     });
   }
+
+  var currUserCollection;
 
   // void onInit() {
   //   getUser = _authServices.user;
@@ -43,8 +52,20 @@ class AuthController extends GetxController {
 
   void loginController(String email, String password) async {
     try {
-      await FirebaseAuth.instance
-          .signInWithEmailAndPassword(email: email, password: password);
+      await _authServices.login(email, password);
+
+// get user collection
+      // currUserCollection = await db
+      //     .collection("penduduk")
+      //     .doc(_authServices.currentUser!.uid)
+      //     .get();
+
+      // rt = currUserCollection['rt'];
+
+      // print('==> [auth_controller] usercol  ${currUserCollection}');
+      // print('==> [auth_controller] rt ${currUserCollection['rt']}');
+      // print('==> [auth_controller] rt2 ${rt}');
+
       // await _authServices.login(email, password);
       // getEmailUser = email;
       Fluttertoast.showToast(
@@ -55,7 +76,8 @@ class AuthController extends GetxController {
           backgroundColor: Colors.green,
           textColor: Colors.white,
           fontSize: 16.0);
-        print('=> [auth_Controller] login current user : ${_authServices.currentUser}');
+      print(
+          '=> [auth_Controller] login current user : ${_authServices.currentUser}');
     } catch (firebaseAuthException) {}
   }
 
@@ -70,9 +92,25 @@ class AuthController extends GetxController {
   }
 
   void signOut() async {
-    await FirebaseAuth.instance.signOut();
+    await _authServices.signOut();
+  }
+
+  User getCurrentUser() {
+    currUser = _authServices.currentUser;
+    return currUser;
+  }
+
+  // Stream<QuerySnapshot<Map<String, dynamic>>> getCurrentUserCollection() {
+  getCurrentUserCollection() async {
+    var emailloc;
+    currUserCollection =
+        await db.collection("users").doc(_authServices.currentUser!.uid).get();
+    emailloc = currUserCollection['email'];
+    userRt = currUserCollection['email'];
+    print('=>[auth controller] user auth : ${_authServices.currentUser!.uid}');
+    print('=>[auth controller] user coll : ${currUserCollection['email']}');
+    print('=>[auth controller] user coll : ${userRt}');
+
+    update();
   }
 }
-
-
-

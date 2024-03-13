@@ -7,8 +7,6 @@ class AuthService {
 
   Stream<User?> get authStateChanges => auth.idTokenChanges();
 
-
-
   Future<void> login(String email, String password) async {
     await auth.signInWithEmailAndPassword(email: email, password: password);
     print('=> [auth_service] login user : $email');
@@ -23,6 +21,4 @@ class AuthService {
     await auth.signOut();
     print('=> [auth_service] currentUser signout $currentUser');
   }
-
-
 }

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:sisepuh/screens/mastertable/widget/streambuilder_data.dart';
 
 class TextSearchField extends StatelessWidget {
-  const TextSearchField({
+  TextSearchField({
     super.key,
   });
+  var keyword = Streambuilderdata();
+  var keywordSearch;
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +32,7 @@ class TextSearchField extends StatelessWidget {
           ),
           Expanded(
             child: TextFormField(
+              controller: keyword.keywordSearchC,
               initialValue: null,
               decoration: InputDecoration.collapsed(
                 filled: true,
@@ -39,7 +43,10 @@ class TextSearchField extends StatelessWidget {
                 ),
                 hoverColor: Colors.transparent,
               ),
-              onFieldSubmitted: (value) {},
+              onFieldSubmitted: (value) {
+                keywordSearch = value;
+                print("[TextSearch] keyword yang didapat : $keywordSearch");
+              },
             ),
           ),
         ],
