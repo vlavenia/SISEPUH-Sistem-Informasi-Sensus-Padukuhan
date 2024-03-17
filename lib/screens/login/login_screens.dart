@@ -6,6 +6,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:provider/provider.dart';
 import 'package:sisepuh/controller/auth_controller.dart';
 import 'package:sisepuh/controller/formdata_controller.dart';
+import 'package:sisepuh/services/countfirebase_service.dart';
 import '../../services/auth_service.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -14,6 +15,7 @@ class LoginScreen extends StatelessWidget {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   var Auth = Get.put(AuthController());
+  var Countf = Get.put(CountFirebase());
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +61,7 @@ class LoginScreen extends StatelessWidget {
                       //       password,
                       //     );
                       Auth.loginController(emailController, passwordController);
-                   
+                      Countf.getCountBirth();
                     }
                   },
                   child: Text("Login"),
@@ -79,7 +81,6 @@ class LoginScreen extends StatelessWidget {
                       } else {
                         Auth.signUpController(
                             emailController, passwordController);
-
                       }
                     },
                     child: Text("Register")),

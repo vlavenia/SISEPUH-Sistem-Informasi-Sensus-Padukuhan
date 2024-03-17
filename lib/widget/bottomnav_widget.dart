@@ -51,31 +51,6 @@ class bottomNavbar extends StatelessWidget {
                   ],
                 ),
               )
-              // BottomNavigationBar(
-              //   backgroundColor: Colors.blueAccent,
-              //   selectedItemColor: Colors.white,
-              //   unselectedItemColor: Colors.white,
-              //   items: [
-              //     BottomNavigationBarItem(
-              //         icon: const Icon(
-              //           Icons.dashboard_outlined,
-              //           size: 24.0,
-              //         ),
-              //         label: "Home"),
-              //     BottomNavigationBarItem(
-              //         icon: const Icon(
-              //           Icons.table_chart_outlined,
-              //           size: 24.0,
-              //         ),
-              //         label: "Data"),
-              //     BottomNavigationBarItem(
-              //         icon: const Icon(
-              //           Icons.settings,
-              //           size: 24.0,
-              //         ),
-              //         label: "Settings"),
-              //   ],
-              // ),
               ),
         ),
         body: Obx(

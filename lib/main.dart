@@ -9,9 +9,11 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:sisepuh/screens/Home/View/home_screen.dart';
 import 'package:sisepuh/screens/login/login_screens.dart';
 import 'package:sisepuh/screens/mastertable/widget/form_view.dart';
+import 'package:sisepuh/services/countfirebase_service.dart';
 import 'package:sisepuh/widget/bottomnav_widget.dart';
 import 'firebase_options.dart';
 
+var AuthDataController = Get.put(AuthController());
 var db = FirebaseFirestore.instance.collection('penduduk');
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,12 +24,17 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  var AuthDataController = Get.put(AuthController());
   MyApp({Key? key}) : super(key: key);
   // This widget is the root of your application.
+  // @override
+  // void initState() {
+  //   Get.put(CountFirebase().getCountBirth());
+  // }
 
   @override
   Widget build(BuildContext context) {
+    print(
+        " [main.dart] AuthDataController.isLoggedIn.value : ${AuthDataController.isLoggedIn.value}");
     return GetMaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'SI-Sepuh',
@@ -47,7 +54,6 @@ class MyApp extends StatelessWidget {
         // ),
         home: Obx(() => AuthDataController.isLoggedIn.value
             ? bottomNavbar()
-            : LoginScreen())
-        );
+            : LoginScreen()));
   }
 }

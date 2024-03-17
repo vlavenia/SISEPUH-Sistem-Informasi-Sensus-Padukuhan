@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ffi';
 
 class DataModelPenduduk {
   String? id;
@@ -6,7 +7,8 @@ class DataModelPenduduk {
   String? birthdate;
   String? gender;
   String? rt;
-  int? age;
+  // int? age;
+  DateTime? dateTime;
 
   DataModelPenduduk({
     this.id,
@@ -14,7 +16,8 @@ class DataModelPenduduk {
     this.birthdate,
     this.gender,
     this.rt,
-    this.age,
+    // this.age,
+    this.dateTime,
   });
 
   factory DataModelPenduduk.fromRawJson(String str) =>
@@ -29,7 +32,8 @@ class DataModelPenduduk {
         birthdate: json["birthdate"],
         gender: json["gender"],
         rt: json["rt"],
-        age: json["age"],
+        // age: json["age"],
+        dateTime: json["dateTime"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -38,6 +42,7 @@ class DataModelPenduduk {
         "birthdate": birthdate,
         "gender": gender,
         "rt": rt,
-        "age": age,
+        // "age": age,
+        "dateTime": dateTime,
       };
 }

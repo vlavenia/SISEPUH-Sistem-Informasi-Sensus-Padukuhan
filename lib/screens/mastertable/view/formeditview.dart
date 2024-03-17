@@ -12,8 +12,8 @@ import 'package:sisepuh/services/countfirebase_service.dart';
 import 'package:sisepuh/widget/bottomnav_widget.dart';
 import 'package:sisepuh/widget/header_nav.dart';
 
-class FormView extends StatelessWidget {
-  FormView({Key? key, this.item}) : super(key: key);
+class FormEditView extends StatelessWidget {
+  FormEditView({Key? key, this.item}) : super(key: key);
   QueryDocumentSnapshot? item;
 
   var FromdataController = Get.put(FromDataController());
@@ -23,6 +23,16 @@ class FormView extends StatelessWidget {
     'laki-laki',
     'perempuan',
   ];
+
+  User? loged = AuthController().getCurrentUser();
+  var idx;
+  var nama;
+  var birthdate;
+  var gender;
+  var enabledRTDropdown = true; //dikondisikan nanti
+
+  String? selectedValue;
+
   var selectdedgender;
   final List<String> rtItems = [
     '01',
@@ -32,28 +42,28 @@ class FormView extends StatelessWidget {
     '05',
     '06',
   ];
-
+  String? selectedValueRT;
   var difference;
-
   var countAge;
-  var idx;
-  var birthdate;
-  var nama;
-  var gender;
-  // var rt;
-  var enabledRTDropdown = true;
-  User? loged = AuthController().getCurrentUser();
 
   @override
   Widget build(BuildContext context) {
-    idx = item?.id;
-    nama = item?['nama'];
-    birthdate = item?['birthdate'];
-    gender = item?['gender'];
-    var selectedrt = item?['rt'];
-    print("[FormView]=> value selectedrt $selectedrt");
+    if (loged!.email != 'testdukuhh@gmail.com') {
+      print('=> user loged suscessfully email: ${loged!.email}');
+      enabledRTDropdown = false;
+    } else {
+      enabledRTDropdown = true;
+    }
+    idx = item!.id;
+
+    nama = item!['nama'];
+    birthdate = item!['birthdate'];
+    gender = item!['gender'];
+
     return Scaffold(
-      appBar: headerNav(title: "Form Input Data Penduduk"),
+      appBar: AppBar(
+        title: Text("Form Input Data Penduduk"),
+      ),
       body: SingleChildScrollView(
         child: Container(
           padding: const EdgeInsets.all(10.0),
@@ -66,9 +76,9 @@ class FormView extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 30),
                     margin: const EdgeInsets.only(top: 20),
                     child: TextFormField(
-                      initialValue: nama = item?['nama'],
                       // controller: FromdataController.namaC,
-                      // initialValue: 'admin@gmail.com',
+                      // initialValue: FromdataController.namaC.text,
+                      initialValue: item!['nama'],
                       decoration: InputDecoration(
                         labelText: 'Nama',
                         labelStyle: TextStyle(fontSize: 14),
@@ -77,6 +87,8 @@ class FormView extends StatelessWidget {
                       ),
                       onChanged: (value) {
                         FromdataController.namaC.text = value;
+                        print(
+                            "[FormEditView]==> FromdataController.namaC.text : ${FromdataController.namaC.text}");
                         nama = value;
                       },
                     ),
@@ -89,15 +101,16 @@ class FormView extends StatelessWidget {
                     child: CupertinoDatePicker(
                       mode: CupertinoDatePickerMode.date,
                       maximumDate: DateTime.now(),
-                      initialDateTime: idx != null
-                          ? DateTime.parse('${item?['birthdate']}')
-                          : DateTime(1970, 1, 1),
-                      // DateTime.parse('${item?['birthdate']}'),
+                      // initialDateTime: DateTime(1970 - 1 - 2),
+                      initialDateTime:
+                          DateTime.parse('${item!['birthdate']} 00:00:00.000'),
                       onDateTimeChanged: (DateTime newDateTime) {
-                        FromdataController.formattedDate =
-                            DateFormat('yyyy-MM-dd').format(newDateTime);
+                        FromdataController.formattedDate = newDateTime;
                         birthdate =
                             DateFormat('yyyy-MM-dd').format(newDateTime);
+
+                        // print('=> datetime current ${item!['birthdate']} ');
+                        // countAge = (difference ~/ 365).round();
                       },
                     ),
                   ),
@@ -110,16 +123,19 @@ class FormView extends StatelessWidget {
                       isExpanded: true,
                       decoration: InputDecoration(
                         labelStyle: TextStyle(fontSize: 14),
+                        // Add Horizontal padding using menuItemStyleData.padding so it matches
+                        // the menu padding when button's width is not specified.
                         contentPadding:
                             const EdgeInsets.symmetric(vertical: 16),
                         border: UnderlineInputBorder(
                             borderSide: BorderSide(color: Colors.grey)),
+                        // Add more decoration..
                       ),
                       hint: const Text(
                         ' Pilih Gender',
                         style: TextStyle(fontSize: 14),
                       ),
-                      value: item?['gender'].toString(),
+                      value: item!['gender'].toString(),
                       items: genderItems
                           .map((item) => DropdownMenuItem<String>(
                                 value: item,
@@ -133,15 +149,27 @@ class FormView extends StatelessWidget {
                           .toList(),
                       validator: (value) {
                         if (value == null) {
+                          print('=> gender selected 1 ${value}');
                           return 'Please select gender.';
                         }
                         return null;
                       },
                       onChanged: (String? value) {
+                        print('=> gender selected 2 ${value}');
+                        print(
+                            '=> gender selected default ${this.item!['gender']}');
                         FromdataController.selectedgender = value;
                         gender = value;
+                        // selectedValue = value;
+                        print(
+                            "###=> [FormEditView] selectedgender 1 : ${FromdataController.selectedgender}");
                       },
-                      onSaved: (value) {},
+                      onSaved: (value) {
+                        FromdataController.selectedgender = value;
+                        gender = value;
+                        print(
+                            "###=> [FormEditView] selectedgender 2 : ${gender}");
+                      },
                       buttonStyleData: const ButtonStyleData(
                         padding: EdgeInsets.only(right: 8),
                       ),
@@ -184,7 +212,7 @@ class FormView extends StatelessWidget {
                               ' RT Berapa?',
                               style: TextStyle(fontSize: 14),
                             ),
-                            value: item?['rt'].toString(),
+                            value: item!['rt'].toString(),
                             items: rtItems
                                 .map((item) => DropdownMenuItem<String>(
                                       value: item,
@@ -202,9 +230,8 @@ class FormView extends StatelessWidget {
                               }
                               return null;
                             },
-                            onChanged: (String? value) {
-                              FromdataController.selectedrt = value;
-                              selectedrt = value;
+                            onChanged: (value) {
+                              // onselectedrt = value;
                             },
                             onSaved: (value) {
                               // selectedValue = value.toString();
@@ -239,22 +266,20 @@ class FormView extends StatelessWidget {
                 child: ElevatedButton(
                     style: ElevatedButton.styleFrom(),
                     onPressed: () {
-                      if (idx == null) {
-                        FromdataController.AddDataMethod(
-                            formattedDate: FromdataController.formattedDate);
-                      } else {
-                        FromdataController.UpdateDataMethod(
-                            id: idx,
-                            nama: nama,
-                            formattedDate: birthdate,
-                            gender: gender,
-                            selectedrt: selectedrt);
-                      }
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(builder: (context) => bottomNavbar()),
-                      // );
-                      Get.to(bottomNavbar());
+                      print("###=> idx: $idx");
+                      FromdataController.UpdateDataMethod(
+                        id: this.idx,
+                        nama: this.nama,
+                        formattedDate: FromdataController.formattedDate,
+                        gender: this.gender,
+                        // countAge: countAge,
+                      );
+                      FromdataController.getDataMethods();
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => bottomNavbar()),
+                      );
+                      //Get.to(bottomNavbar());
                     },
                     child: Text("Simpan")),
               ),
@@ -283,6 +308,7 @@ class FormView extends StatelessWidget {
                                 MaterialPageRoute(
                                     builder: (context) => bottomNavbar()),
                               );
+                              print('##deletedd presed');
                             },
                             child: const Text('OK'),
                           ),
@@ -291,6 +317,18 @@ class FormView extends StatelessWidget {
                     ),
                     child: const Text('Hapus'),
                   ))
+
+              //       onPressed: () {
+              //         FromdataController.DeleteDataMethod(id: idx);
+              //         FromdataController.getDataMethods();
+              //         Navigator.push(
+              //           context,
+              //           MaterialPageRoute(builder: (context) => bottomNavbar()),
+              //         );
+              //         //Get.to(bottomNavbar());
+              //       },
+              //       child: Text("Hapus")),
+              // )
             ],
           ),
         ),
