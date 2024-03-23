@@ -67,7 +67,6 @@ class Streambuilderdata extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("##=> widget render 2");
     return FutureBuilder<Stream<QuerySnapshot<Map<String, dynamic>>>>(
       future: getDatas(),
       builder: (context, snapshot) {
@@ -93,7 +92,6 @@ class Streambuilderdata extends StatelessWidget {
                     scrollDirection: Axis.horizontal,
                     child: DataTable(
                       headingTextStyle: TextStyle(
-                        color: Color.fromARGB(172, 68, 137, 255),
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
                       ),
@@ -122,11 +120,12 @@ class Streambuilderdata extends StatelessWidget {
                   return SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: DataTable(
-                      headingRowColor: MaterialStateProperty.all(
-                        Color.fromARGB(172, 68, 137, 255),
-                      ),
+                      dataTextStyle: TextStyle(
+                          fontFamily: 'Open Sans',
+                          color: Colors.black,
+                          fontSize: 14),
                       headingTextStyle: TextStyle(
-                        color: Colors.white,
+                        color: Colors.black,
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
                       ),

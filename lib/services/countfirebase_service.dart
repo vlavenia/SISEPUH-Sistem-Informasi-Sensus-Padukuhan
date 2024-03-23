@@ -40,13 +40,15 @@ class CountFirebase extends GetxController {
   DateTime now = DateTime.now();
 
   final List<String> rtUser = [
-    'RT01',
-    'RT02',
-    'RT03',
-    'RT04',
-    'RT05',
-    'RT06',
+    '01',
+    '02',
+    '03',
+    '04',
+    '05',
+    '06',
   ];
+
+  var NumColData;
 
   //============== code di bawah ini di Comment ============
   // Future getRtUser() async {
@@ -64,6 +66,10 @@ class CountFirebase extends GetxController {
   //   update();
   //   print("[CountFirebase] data selectedRT : $selectedRt");
   // }
+  Future getNumCol() async {
+    var getNumColData = await db.collection("penduduk").get();
+    NumColData = getNumColData.docs.length;
+  }
 
   //======================== Get All Data ================================
   Future getallCollection() async {
@@ -81,6 +87,33 @@ class CountFirebase extends GetxController {
     }
     NumLength = getCol.docs.length;
     update();
+  }
+
+  var dataRt;
+  num? total;
+  var getLength;
+  Map<int, int> results = {};
+  Future getAllColection2({int? rt}) async {
+    total = 0;
+    var data = [];
+    for (var i = 1; i <= rtUser.length; i++) {
+      var rtlop = "0$i";
+      print("debugs ==> i value RT : 0$i");
+      dataRt =
+          await db.collection("penduduk").where("rt", isEqualTo: rtlop).get();
+      getLength = dataRt.docs.length;
+      results[i] = getLength;
+      print("debugs ==> result value :  ${getLength}");
+
+      // tambah semua data
+      total = total! + getLength;
+      // total = total + int.parse(getLength);
+    }
+    print("debugs ==> results all value :  ${results}");
+    print("debugs ==> results all total :  ${total}");
+    //total = 0;
+
+    return results;
   }
 
   //========================================================================

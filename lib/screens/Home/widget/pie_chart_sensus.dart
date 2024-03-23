@@ -6,7 +6,7 @@ import 'package:sisepuh/resources/app_color.dart';
 import 'package:sisepuh/services/countfirebase_service.dart';
 import 'package:sisepuh/widget/indicator_chart.dart';
 
-class PieChartSample2 extends StatelessWidget {
+class PieChartSensus extends StatelessWidget {
   int touchedIndex = -1;
   int? datacount;
   int? datacountAge;
@@ -62,7 +62,7 @@ class PieChartSample2 extends StatelessWidget {
               ),
             ),
             const SizedBox(
-              width: 18,
+              width: 5,
             ),
             Column(
               children: [
@@ -70,7 +70,7 @@ class PieChartSample2 extends StatelessWidget {
                   height: 20.0,
                 ),
                 Container(
-                  height: 137,
+                  height: 132,
                   width: 140,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -90,7 +90,7 @@ class PieChartSample2 extends StatelessWidget {
                                   "[GetBuilder]==> value countAge lansia : ${countFirebase.numLansia}");
                               return Indicator(
                                 color: AppColors.contentColorBlue,
-                                text: "  Lansia : ${CountFirebase.numLansia}",
+                                text: "Perempuan : ${CountFirebase.numLansia}",
                                 //  'Lansia : ${FromdataController.getNumLansia()}',
                                 isSquare: true,
                               );
@@ -104,9 +104,6 @@ class PieChartSample2 extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          SizedBox(
-                            width: 18,
-                          ),
                           GetBuilder<CountFirebase>(
                             init: CountFirebase(),
                             initState: (_) =>
@@ -116,7 +113,7 @@ class PieChartSample2 extends StatelessWidget {
                                   "[GetBuilder]==> value countAge Dewasa : ${countFirebase.numDewasa}");
                               return Indicator(
                                 color: AppColors.contentColorOrange,
-                                text: 'Dewasa :${countFirebase.numDewasa}',
+                                text: 'Laki-Laki :${countFirebase.numDewasa}',
                                 isSquare: true,
                               );
                             },
@@ -126,92 +123,6 @@ class PieChartSample2 extends StatelessWidget {
                       SizedBox(
                         height: 1,
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SizedBox(
-                            width: 18,
-                          ),
-                          GetBuilder<CountFirebase>(
-                            init: CountFirebase(),
-                            initState: (_) =>
-                                countFirebase.getCountBirth(countAge: 12),
-                            builder: (countFirebase) {
-                              return Indicator(
-                                color: AppColors.contentColorPurple,
-                                text: ' Remaja: ${countFirebase.numRemaja}',
-                                isSquare: true,
-                              );
-                            },
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 1,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SizedBox(
-                            width: 18,
-                          ),
-                          GetBuilder<CountFirebase>(
-                            init: CountFirebase(),
-                            initState: (_) =>
-                                countFirebase.getCountBirth(countAge: 6),
-                            builder: (countFirebase) {
-                              return Indicator(
-                                color: Color.fromARGB(255, 27, 207, 69),
-                                text: '   Anak : ${countFirebase.numAnak}',
-                                isSquare: true,
-                              );
-                            },
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 1,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SizedBox(
-                            width: 18,
-                          ),
-                          GetBuilder<CountFirebase>(
-                            init: CountFirebase(),
-                            initState: (_) =>
-                                countFirebase.getCountBirth(countAge: 5),
-                            builder: (CountFirebase) {
-                              return Indicator(
-                                color: AppColors.contentColorPink,
-                                text: '  Balita : ${CountFirebase.numBalita}',
-                                isSquare: true,
-                              );
-                            },
-                          ),
-                        ],
-                      ),
-                      // const SizedBox(
-                      //   height: 13.5,
-                      // ),
-                      // Text(
-                      //
-                      //   "Total : $datacount",
-                      //   style: TextStyle(
-                      //       color: Colors.yellow[600],
-                      //       fontWeight: FontWeight.bold,
-                      //       fontSize: 19),
-                      // ),
-                      // ElevatedButton(
-                      //     onPressed: () async {
-                      //       // db.collection("penduduk").count().get().then(
-                      //       //       (res) => datacount,
-                      //       //       onError: (e) => print("Error completing: $e"),
-                      //       //     );
-                      //     },
-                      //     //cb klo di dumb gmn caranya
-                      //     child: Text("Total : $datacount"))
                     ],
                   ),
                 ),

@@ -16,159 +16,57 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: headerNav(title: "Profile"),
+      appBar: headerNav(title: "About Us"),
       body: SingleChildScrollView(
-        child: Container(
-          //padding: const EdgeInsets.all(10.0),
-          child: Column(
-            children: [
-              Container(
-                padding: EdgeInsets.all(30),
-                child: Row(
-                  children: [
-                    CircleAvatar(
-                      radius: 35,
-                      backgroundImage: NetworkImage(
-                        "https://i.ibb.co/PGv8ZzG/me.jpg",
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 15,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Padding(padding: EdgeInsets.only(left: 8)),
-                        Container(
-                          width: 220,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text("Wellcome"),
-                              const SizedBox(
-                                height: 5.0,
-                              ),
-                              Text(
-                                "Pak Poniman",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 20),
-                              ),
-                            ],
-                          ),
-                        ),
-                        const Icon(
-                          Icons.logout_outlined,
-                          size: 24.0,
-                        ),
-                      ],
-                    )
-                  ],
-                ),
+          child: Container(
+        padding: EdgeInsets.all(56),
+        child: Column(
+          children: [
+            const SizedBox(
+              height: 15.0,
+            ),
+            Text(
+              "SI-SEPUH,\nSistem Informasi Penduduk Padukuhan",
+              style: TextStyle(
+                fontWeight: FontWeight.w800,
+                fontFamily: 'Open Sans',
+                fontSize: 20,
               ),
-              Container(
-                width: MediaQuery.of(context).size.width,
-                height: 144,
-                padding: EdgeInsets.only(left: 40),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      child: Row(
-                        children: [
-                          const Icon(
-                            Icons.person,
-                            size: 24.0,
-                          ),
-                          Container(
-                            padding: EdgeInsets.only(left: 20),
-                            width: 300,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  "Edit Profile",
-                                  style: TextStyle(fontSize: 15),
-                                ),
-                                IconButton(
-                                  onPressed: () {},
-                                  icon: const Icon(
-                                    Icons.keyboard_arrow_right,
-                                    size: 24.0,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                    Container(
-                      child: Row(
-                        children: [
-                          const Icon(
-                            Icons.key_outlined,
-                            size: 24.0,
-                          ),
-                          Container(
-                            padding: EdgeInsets.only(left: 20),
-                            width: 300,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  "Reset Password",
-                                  style: TextStyle(fontSize: 15),
-                                ),
-                                IconButton(
-                                  onPressed: () {},
-                                  icon: const Icon(
-                                    Icons.keyboard_arrow_right,
-                                    size: 24.0,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                    Container(
-                      child: Row(
-                        children: [
-                          const Icon(
-                            Icons.question_mark_rounded,
-                            size: 24.0,
-                          ),
-                          Container(
-                            padding: EdgeInsets.only(left: 20),
-                            width: 300,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  "About",
-                                  style: TextStyle(fontSize: 15),
-                                ),
-                                IconButton(
-                                  onPressed: () {},
-                                  icon: const Icon(
-                                    Icons.keyboard_arrow_right,
-                                    size: 24.0,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ],
+            ),
+            const SizedBox(
+              height: 20.0,
+            ),
+            Text(
+              "   SI-SEPUH adalah sebuah aplikasi yang dirancang oleh KKNT Kelompok 01 - Kentolan Lor untuk membantu dalam pengelolaan data dan informasi terkait dengan sensus penduduk di padukuhan Kentolan Lor.",
+              style: TextStyle(fontSize: 17),
+            ),
+            const SizedBox(
+              height: 10.0,
+            ),
+            Text(
+                "   Melalui SI-SEPUH, pengguna dapat mendaftarkan data individu, seperti nama, tanggal lahir dan jenis kelamin untuk melacak data kependudukan secara keseluruhan.",
+                style: TextStyle(fontSize: 17)),
+            const SizedBox(
+              height: 40.0,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Image.asset(
+                  "assets/images/logokknt.png",
+                  width: 40.0,
+                  height: 40.0,
+                  fit: BoxFit.fill,
                 ),
-              ),
-            ],
-          ),
+                const SizedBox(
+                  width: 10.0,
+                ),
+                Text("Kelompok 01 KKNT Kentolan Lor UAA "),
+              ],
+            )
+          ],
         ),
-      ),
+      )),
     );
   }
 }

@@ -12,7 +12,6 @@ class bottomNavbar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        
         bottomNavigationBar: Container(
           margin: EdgeInsets.only(bottom: 20, left: 20, right: 20),
           decoration: BoxDecoration(boxShadow: [
@@ -47,11 +46,10 @@ class bottomNavbar extends StatelessWidget {
                           Icons.settings,
                           size: 24.0,
                         ),
-                        label: "Profile"),
+                        label: "About"),
                   ],
                 ),
-              )
-              ),
+              )),
         ),
         body: Obx(
           () => NavC.listpages[NavC.selectedIndex.value],

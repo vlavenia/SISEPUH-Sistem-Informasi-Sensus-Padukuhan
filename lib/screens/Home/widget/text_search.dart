@@ -39,12 +39,12 @@ class TextSearchField extends StatelessWidget {
               decoration: InputDecoration.collapsed(
                 filled: true,
                 fillColor: Colors.transparent,
-                hintText: "What are you craving?",
+                hintText: "Search data",
                 hintStyle: TextStyle(
                   color: Colors.grey[500],
                 ),
                 hoverColor: Colors.transparent,
-              ),
+              ), //testing
               onFieldSubmitted: (value) {
                 keywordSearch = value;
                 print("##[TextSearch] keyword yang didapat : $keywordSearch");

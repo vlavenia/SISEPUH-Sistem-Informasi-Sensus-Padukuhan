@@ -26,22 +26,40 @@ class _MasterTableScreenState extends State<MasterTableScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Data Penduduk RT 02"),
-          leading: const Icon(
-            Icons.table_chart_outlined,
-            size: 24.0,
+          toolbarHeight: 100,
+          centerTitle: true,
+          title: Text(
+            "Data Penduduk Kentolan Lor",
+            style: TextStyle(color: Colors.white),
+          ),
+          backgroundColor: Colors.transparent,
+          flexibleSpace: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  Colors.blue,
+                  Colors.purple
+                ], // Ganti dengan warna yang Anda inginkan
+              ),
+            ),
           ),
         ),
         body: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Padding(
-                padding: const EdgeInsets.all(15),
-                child: TextSearchField(),
-              ),
-              Streambuilderdata(
-                refreshCallback: () {},
+              // Padding(
+              //   padding: const EdgeInsets.all(15),
+              //   child: TextSearchField(),
+              // ),
+
+              Container(
+                // padding: EdgeInsets.all(16),
+                child: Streambuilderdata(
+                  refreshCallback: () {},
+                ),
               ),
             ],
           ),
