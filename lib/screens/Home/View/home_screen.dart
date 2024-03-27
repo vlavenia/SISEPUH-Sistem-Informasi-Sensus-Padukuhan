@@ -31,7 +31,6 @@ class HomeScreen extends StatelessWidget {
   var curruserview = true;
   var dataL;
   User? loged = AuthController().getCurrentUser();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,7 +58,7 @@ class HomeScreen extends StatelessWidget {
                               Text(
                                 "Dashboard SI-Sepuh",
                                 style: TextStyle(
-                                  fontSize: 30,
+                                  fontSize: 25,
                                   fontWeight: FontWeight.w800,
                                   fontFamily: 'Open Sans',
                                 ),
@@ -164,7 +163,7 @@ class HomeScreen extends StatelessWidget {
                             height: 10.0,
                           ),
                           FutureBuilder<dynamic>(
-                              future: countFirebase.getallCollection(),
+                              future: countFirebase.getAllColection2(),
                               builder: (context, snapshot) {
                                 if (snapshot.connectionState ==
                                     ConnectionState.waiting) {
@@ -177,7 +176,7 @@ class HomeScreen extends StatelessWidget {
                                     initState: (_) =>
                                         countFirebase.getallCollection(),
                                     builder: (countFirebase) => Text(
-                                      "${countFirebase.NumLength} Penduduk",
+                                      "${countFirebase.total} Penduduk",
                                       style: TextStyle(
                                         color: Colors.white,
                                         fontSize: 32,
@@ -209,8 +208,9 @@ class HomeScreen extends StatelessWidget {
                                         return loged!.email !=
                                                 'testdukuhh@gmail.com'
                                             ? Text(
+                                                //ini ya
                                                 textAlign: TextAlign.center,
-                                                "${(countFirebase.NumLength / countFirebase.NumColData * 100).toInt()} % Penduduk RT${countFirebase.currUserCollectionRT} - Kentolan Lor",
+                                                "${(countFirebase.NumLength != 0 ? countFirebase.NumLength : 0 / countFirebase.NumColData != 0 ? countFirebase.NumColData : 0 * 100).round()} % Penduduk RT${countFirebase.currUserCollectionRT != 0 ? countFirebase.currUserCollectionRT : 0} - Kentolan Lor",
                                                 style: TextStyle(
                                                   color: Colors.white,
                                                   fontSize: 18,
@@ -249,12 +249,10 @@ class HomeScreen extends StatelessWidget {
                                                 countFirebase.getCountGender(
                                                     gender: "perempuan"),
                                             builder: (countFirebase) {
-                                              print(
-                                                  "[GetBuilder]==> value countGender Perempuan : ${countFirebase.NumLengthGenderP}");
                                               return Indicator(
                                                 color: Colors.pink,
                                                 text:
-                                                    "Perempuan ${((countFirebase.NumLengthGenderP / (countFirebase.NumLengthGenderL + countFirebase.NumLengthGenderP)) * 100).toInt()}% : ${countFirebase.NumLengthGenderP}",
+                                                    "Perempuan ${countFirebase.NumLengthGenderP != 0 ? ((countFirebase.NumLengthGenderP / (countFirebase.NumLengthGenderL + countFirebase.NumLengthGenderP)) * 100).round() : 0}% : ${countFirebase.NumLengthGenderP}",
                                                 textColor: Colors.white,
                                                 isSquare: true,
                                               );
@@ -269,12 +267,10 @@ class HomeScreen extends StatelessWidget {
                                                 countFirebase.getCountGender(
                                                     gender: "laki-laki"),
                                             builder: (countFirebase) {
-                                              print(
-                                                  "[GetBuilder]==> value countGender LAKI-LAKI : ${countFirebase.NumLengthGenderL}");
                                               return Indicator(
                                                 color: Colors.amber,
                                                 text:
-                                                    'Laki-Laki ${(countFirebase.NumLengthGenderL / (countFirebase.NumLengthGenderL + countFirebase.NumLengthGenderP) * 100).toInt()}% : ${countFirebase.NumLengthGenderL} ',
+                                                    'Laki-Laki ${countFirebase.NumLengthGenderL != 0 ? (countFirebase.NumLengthGenderL / (countFirebase.NumLengthGenderL + countFirebase.NumLengthGenderP) * 100).round() : 0}% : ${countFirebase.NumLengthGenderL != 0 ? countFirebase.NumLengthGenderL : 0} ',
                                                 textColor: Colors.white,
                                                 isSquare: true,
                                               );
@@ -296,7 +292,6 @@ class HomeScreen extends StatelessWidget {
                     const SizedBox(
                       height: 20.0,
                     ),
-
                     Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.all(Radius.circular(20)),
@@ -329,42 +324,54 @@ class HomeScreen extends StatelessWidget {
                               }
                               return Text("loading");
                             })),
-                    Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(20)),
-                        ),
-                        child: FutureBuilder<dynamic>(
-                            future: countFirebase.getCountBirth(),
-                            builder: (context, snapshot) {
-                              // if (snapshot.connectionState ==
-                              //     ConnectionState.waiting) {
-                              //   return Center(child: CircularProgressIndicator());
-                              if (snapshot.connectionState ==
-                                  ConnectionState.done) {
-                                return Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 20),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "Kategori Per Rt",
-                                        style: TextStyle(
-                                          fontSize: 22,
-                                          fontFamily: 'Open Sans',
-                                        ),
+                    const SizedBox(
+                      height: 10.0,
+                    ),
+                    loged!.email == 'testdukuhh@gmail.com'
+                        ? Container(
+                            decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20)),
+                            ),
+                            child: FutureBuilder<dynamic>(
+                                future: countFirebase.getAllColection2(),
+                                builder: (context, snapshot) {
+                                  if (snapshot.connectionState ==
+                                      ConnectionState.waiting) {
+                                    return Center(
+                                        child: CircularProgressIndicator());
+                                  }
+                                  if (snapshot.connectionState ==
+                                      ConnectionState.done) {
+                                    return Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 0),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Padding(
+                                            padding:
+                                                const EdgeInsets.only(left: 15),
+                                            child: Text(
+                                              "Sebaran presentase penduduk :",
+                                              style: TextStyle(
+                                                fontSize: 18,
+                                                fontFamily: 'Open Sans',
+                                              ),
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                            height: 20.0,
+                                          ),
+                                          CardSensus(),
+                                        ],
                                       ),
-                                      const SizedBox(
-                                        height: 20.0,
-                                      ),
-                                      CardSensus(),
-                                    ],
-                                  ),
-                                );
-                                // PieChartSample2();
-                              }
-                              return Text("loading");
-                            })),
+                                    );
+                                  }
+                                  return Text("loading");
+                                }))
+                        : Text(""),
 
                     Container(
                       width: MediaQuery.of(context).size.width - 80,
@@ -406,6 +413,7 @@ class HomeScreen extends StatelessWidget {
                     const SizedBox(
                       height: 15.0,
                     ),
+
                     //LineChartSample2(),
                   ],
                 )),

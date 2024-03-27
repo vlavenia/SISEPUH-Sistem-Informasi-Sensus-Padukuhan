@@ -16,18 +16,17 @@ class AuthService {
   Future<void> signUp(String email, String password) async {
     await _auth.createUserWithEmailAndPassword(
         email: email, password: password);
+    print("Auth_Service : $email $password");
   }
 
   Future<void> signOut() async {
     try {
-      
-    await _auth.signOut();
+      await _auth.signOut();
     } catch (e) {
       print(e.toString());
     }
-    
+
     print("[Auth_Service] value authStateChanges 2==> $authStateChanges");
-     print("[Auth_Service] value currentUser 2 ==> $user");
-    
+    print("[Auth_Service] value currentUser 2 ==> $user");
   }
 }

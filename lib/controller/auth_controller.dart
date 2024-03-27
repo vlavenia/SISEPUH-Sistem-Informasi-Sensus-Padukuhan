@@ -48,15 +48,17 @@ class AuthController extends GetxController {
     try {
       await _authServices.signUp(email.text, password.text).then((value) async {
         User? user = FirebaseAuth.instance.currentUser;
+        print("user value Register : $user");
 
-        await FirebaseFirestore.instance
-            .collection("users")
-            .doc(user!.uid)
-            .set({
-          'uid': user.uid,
-          'email': email,
-          'password': password,
-        });
+        // await FirebaseFirestore.instance
+        //     .collection("users")
+        //     .doc(user!.uid)
+        //     .set({
+        //   'uid': user.uid,
+        //   'email': email,
+        //   'password': password,
+        // });
+       
       });
     } catch (e) {
       print("Eror :$e");

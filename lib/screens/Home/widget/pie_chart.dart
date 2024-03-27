@@ -162,7 +162,30 @@ class PieChartSample2 extends StatelessWidget {
                             builder: (countFirebase) {
                               return Indicator(
                                 color: Color.fromARGB(255, 27, 207, 69),
-                                text: '   Anak : ${countFirebase.numAnak}',
+                                text:
+                                    '   Anak : ${countFirebase.numAnak != 0 ? countFirebase.numAnak : 0}',
+                                isSquare: true,
+                              );
+                            },
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 1,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            width: 18,
+                          ),
+                          GetBuilder<CountFirebase>(
+                            init: CountFirebase(),
+                            initState: (_) => countFirebase.getCountBirth(),
+                            builder: (CountFirebase) {
+                              return Indicator(
+                                color: AppColors.contentColorPink,
+                                text: '  Balita : ${CountFirebase.numBalita}',
                                 isSquare: true,
                               );
                             },
@@ -181,11 +204,12 @@ class PieChartSample2 extends StatelessWidget {
                           GetBuilder<CountFirebase>(
                             init: CountFirebase(),
                             initState: (_) =>
-                                countFirebase.getCountBirth(countAge: 5),
+                                countFirebase.getCountBirth(countAge: 0),
                             builder: (CountFirebase) {
                               return Indicator(
-                                color: AppColors.contentColorPink,
-                                text: '  Balita : ${CountFirebase.numBalita}',
+                                color: Colors.grey,
+                                text:
+                                    '  Unknown: ${CountFirebase.numunknown != 0 ? CountFirebase.numunknown : 0}',
                                 isSquare: true,
                               );
                             },
@@ -227,11 +251,12 @@ class PieChartSample2 extends StatelessWidget {
   }
 
   List<PieChartSectionData> showingSections() {
-    return List.generate(5, (i) {
+    return List.generate(6, (i) {
       final isTouched = i == touchedIndex;
       final fontSize = isTouched ? 25.0 : 16.0;
       final radius = isTouched ? 60.0 : 50.0;
       const shadows = [Shadow(color: Colors.black, blurRadius: 2)];
+
       switch (i) {
         case 0:
           return PieChartSectionData(
@@ -239,7 +264,7 @@ class PieChartSample2 extends StatelessWidget {
             value:
                 (countFirebase.numLansia / countFirebase.presentaseUsia) * 100,
             title:
-                '${((countFirebase.numLansia / countFirebase.presentaseUsia) * 100).toInt()}%',
+                '${((countFirebase.numLansia / countFirebase.presentaseUsia) * 100).round()}%',
             radius: radius,
             titleStyle: TextStyle(
               fontSize: fontSize,
@@ -259,7 +284,7 @@ class PieChartSample2 extends StatelessWidget {
             //         countFirebase.presentaseUsia) *
             //     100,
             title:
-                '${((countFirebase.numDewasa / countFirebase.presentaseUsia) * 100).toInt()}%',
+                '${((countFirebase.numDewasa / countFirebase.presentaseUsia) * 100).round()}%',
             radius: radius,
             titleStyle: TextStyle(
               fontSize: fontSize,
@@ -274,7 +299,7 @@ class PieChartSample2 extends StatelessWidget {
             value:
                 (countFirebase.numRemaja / countFirebase.presentaseUsia) * 100,
             title:
-                '${((countFirebase.numRemaja / countFirebase.presentaseUsia) * 100).toInt()}%',
+                '${((countFirebase.numRemaja / countFirebase.presentaseUsia) * 100).round()}%',
             radius: radius,
             titleStyle: TextStyle(
               fontSize: fontSize,
@@ -289,7 +314,7 @@ class PieChartSample2 extends StatelessWidget {
             color: Color.fromARGB(255, 27, 207, 69),
             value: (countFirebase.numAnak / countFirebase.presentaseUsia) * 100,
             title:
-                '${((countFirebase.numAnak / countFirebase.presentaseUsia) * 100).toInt()}%',
+                '${((countFirebase.numAnak / countFirebase.presentaseUsia) * 100).round()}%',
             radius: radius,
             titleStyle: TextStyle(
               fontSize: fontSize,
@@ -304,7 +329,22 @@ class PieChartSample2 extends StatelessWidget {
             value:
                 (countFirebase.numBalita / countFirebase.presentaseUsia) * 100,
             title:
-                '${((countFirebase.numBalita / countFirebase.presentaseUsia) * 100).toInt()}%',
+                '${((countFirebase.numBalita / countFirebase.presentaseUsia) * 100).round()}%',
+            radius: radius,
+            titleStyle: TextStyle(
+              fontSize: fontSize,
+              fontWeight: FontWeight.bold,
+              color: AppColors.mainTextColor1,
+              shadows: shadows,
+            ),
+          );
+        case 5:
+          return PieChartSectionData(
+            color: Colors.grey,
+            value:
+                (countFirebase.numunknown / countFirebase.presentaseUsia) * 100,
+            title:
+                '${((countFirebase.numunknown / countFirebase.presentaseUsia) * 100).toInt()}%',
             radius: radius,
             titleStyle: TextStyle(
               fontSize: fontSize,
@@ -314,7 +354,7 @@ class PieChartSample2 extends StatelessWidget {
             ),
           );
         default:
-          throw Error();
+          throw Text("No data");
       }
     });
   }

@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:sisepuh/controller/auth_controller.dart';
 import 'package:sisepuh/controller/bottomnavbar_controller.dart';
+import 'package:sisepuh/controller/import_csv.dart';
 import 'package:sisepuh/screens/mastertable/view/formview.dart';
 import 'package:sisepuh/services/countfirebase_service.dart';
 import 'package:sisepuh/widget/bottomnav_widget.dart';
@@ -21,6 +22,7 @@ class MasterTableScreen extends StatefulWidget {
 class _MasterTableScreenState extends State<MasterTableScreen> {
   var db = FirebaseFirestore.instance;
   var countFirebase = CountFirebase();
+  var ImportCsvs = ImportCsv();
   User? loged = AuthController().getCurrentUser();
   @override
   Widget build(BuildContext context) {
@@ -48,8 +50,23 @@ class _MasterTableScreenState extends State<MasterTableScreen> {
         ),
         body: SingleChildScrollView(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            // crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              Padding(
+                padding: const EdgeInsets.all(16),
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: Color(0xffe9eff7)),
+                  onPressed: () {
+                    ImportCsvs.importData();
+                  },
+                  child: Text(
+                    "Import Data Excel",
+                    style: TextStyle(color: Colors.black),
+                  ),
+                ),
+              ),
               // Padding(
               //   padding: const EdgeInsets.all(15),
               //   child: TextSearchField(),
@@ -64,16 +81,14 @@ class _MasterTableScreenState extends State<MasterTableScreen> {
             ],
           ),
         ),
-        floatingActionButton: loged!.email == 'testdukuhh@gmail.com'
-            ? Text("")
-            : FloatingActionButton(
-                child: const Icon(Icons.add),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => FormView()),
-                  );
-                },
-              ));
+        floatingActionButton: FloatingActionButton(
+          child: const Icon(Icons.add),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => FormView()),
+            );
+          },
+        ));
   }
 }

@@ -22,6 +22,7 @@ class CountFirebase extends GetxController {
   var numRemaja;
   var numAnak;
   var numBalita;
+  var numunknown;
   var presentaseUsia;
   var getGender;
   var NumLengthGenderP;
@@ -69,6 +70,7 @@ class CountFirebase extends GetxController {
   Future getNumCol() async {
     var getNumColData = await db.collection("penduduk").get();
     NumColData = getNumColData.docs.length;
+    print("Num ColData length $NumColData");
   }
 
   //======================== Get All Data ================================
@@ -76,6 +78,7 @@ class CountFirebase extends GetxController {
     User? loged = AuthController().getCurrentUser();
     currUserCollection = await db.collection("users").doc(loged!.uid).get();
     currUserCollectionRT = currUserCollection.data()!['rt'];
+    print("Get Rt : $currUserCollectionRT");
     if (currUserCollectionRT != '00') {
       getCol = await db
           .collection("penduduk")
@@ -86,6 +89,7 @@ class CountFirebase extends GetxController {
       getCol = await db.collection("penduduk").get();
     }
     NumLength = getCol.docs.length;
+    print("Num Length : $NumLength");
     update();
   }
 
@@ -112,8 +116,7 @@ class CountFirebase extends GetxController {
     print("debugs ==> results all value :  ${results}");
     print("debugs ==> results all total :  ${total}");
     //total = 0;
-
-    return results;
+    update();
   }
 
   //========================================================================
@@ -158,11 +161,13 @@ class CountFirebase extends GetxController {
             .collection("penduduk")
             .where("rt", isEqualTo: currUserCollectionRT)
             .where("birthdate", isLessThanOrEqualTo: dateFormat)
+            .where("birthdate", isGreaterThan: "0001 - 01 - 01")
             .get();
       } else {
         getNum = await db
             .collection("penduduk")
             .where("birthdate", isLessThanOrEqualTo: dateFormat)
+            .where("birthdate", isGreaterThan: "0001 - 01 - 01")
             .get();
       }
       numLansia = getNum.docs.length;
@@ -218,7 +223,7 @@ class CountFirebase extends GetxController {
     //=================== Anak ===============================
 
     else if (countAge == 6) {
-      DateTime Date1 = now.subtract(Duration(days: 6 * 365));
+      DateTime Date1 = now.subtract(Duration(days: 5 * 365));
       DateTime Date2 = now.subtract(Duration(days: 12 * 365));
       if (currUserCollectionRT != "00") {
         getNum = await db
@@ -235,26 +240,50 @@ class CountFirebase extends GetxController {
             .get();
       }
       numAnak = getNum.docs.length;
-    }
 
-    // Balita
-    else {
-      DateTime now = DateTime.now();
-      DateTime Date1 = now.subtract(Duration(days: 6 * 365));
+      // print(" [Count Firebase]#==> value NumRemaja : $numRemaja");
+    }
+    //Unknown
+    else if (countAge == 0) {
       if (currUserCollectionRT != "00") {
         getNum = await db
             .collection("penduduk")
             .where("rt", isEqualTo: currUserCollectionRT)
-            .where("birthdate", isGreaterThan: "${Date1}")
+            .where("birthdate", isEqualTo: "0000-00-00")
             .get();
       } else {
         getNum = await db
             .collection("penduduk")
-            .where("birthdate", isGreaterThanOrEqualTo: "${Date1}")
+            .where("birthdate", isEqualTo: "0000-00-00")
+            .get();
+      }
+      numunknown = getNum.docs.length;
+      print("numunknown $numunknown");
+    }
+    //Blailta
+    else {
+      DateTime Date1 = now.subtract(Duration(days: 1 * 350));
+      DateTime Date2 = now.subtract(Duration(days: 5 * 365));
+      if (currUserCollectionRT != "00") {
+        getNum = await db
+            .collection("penduduk")
+            .where("rt", isEqualTo: currUserCollectionRT)
+            .where("birthdate", isLessThanOrEqualTo: "${Date1}")
+            .where("birthdate", isGreaterThanOrEqualTo: "${Date2}")
+            .get();
+      } else {
+        getNum = await db
+            .collection("penduduk")
+            .where("birthdate", isLessThanOrEqualTo: "${Date1}")
+            .where("birthdate", isGreaterThanOrEqualTo: "${Date2}")
+            // .where("birthdate", isGreaterThan: "${Date1}")
             .get();
       }
       numBalita = getNum.docs.length;
     }
+
+    //=================== Invalid Data ===============================
+
     presentaseUsia = numLansia + numDewasa + numRemaja + numAnak + numBalita;
     update();
   }
@@ -264,7 +293,7 @@ class CountFirebase extends GetxController {
 //     var getNum = await db
 //         .collection("Data KentolanLor $selectedRt")
 
-//         .where('age', isGreaterThanOrEqualTo: 46)
+//         .where('age', isGreaterThan: 46)
 //         .get();
 //     numLansia = getNum.docs.length;
 //     print("value countAge == 46 berhasil dijalankan");

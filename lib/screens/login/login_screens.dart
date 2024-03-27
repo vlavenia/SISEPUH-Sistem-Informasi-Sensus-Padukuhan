@@ -73,8 +73,10 @@ class LoginScreen extends StatelessWidget {
                     onPressed: () {
                       final String email = emailController.text.trim();
                       final String password = passwordController.text.trim();
+                      print(
+                          "Login_Screen email pass value 1 : $email & $password");
 
-                      if (password.isEmpty) {
+                      if (email.isEmpty) {
                         print("Email Is Empty");
                       } else if (password.isEmpty) {
                         print("Password is Empty");
@@ -82,6 +84,8 @@ class LoginScreen extends StatelessWidget {
                         Auth.signUpController(
                             emailController, passwordController);
                       }
+                      print(
+                          "Login_Screen email pass value 2 : $email & $password");
                     },
                     child: Text("Register")),
               ],

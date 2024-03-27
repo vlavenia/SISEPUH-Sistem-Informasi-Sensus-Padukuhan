@@ -48,10 +48,20 @@ dependencies:
   syncfusion_flutter_charts: ^24.2.8
   firebase_auth: ^4.17.6
   provider: ^6.1.2
+  csv: ^6.0.0
+  flutter_launcher_icons: ^0.13.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: 'assets/icons/dashboardlogo.png'
+  adaptive_icon_background: '#ffffff' 
+  adaptive_icon_foreground: 'assets/icons/ic_launcher.png' 
+
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -75,6 +85,12 @@ flutter:
   assets:
     - assets/images/
     - assets/icons/
+    - assets/csv/datapenduduk.csv 
+    # - assets/csv/datapendudukrt02.csv 
+    # - assets/csv/datapendudukrt03.csv 
+    # - assets/csv/datapendudukrt04.csv 
+    # - assets/csv/datapendudukrt05.csv 
+    # - assets/csv/datapendudukrt06.csv 
     
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

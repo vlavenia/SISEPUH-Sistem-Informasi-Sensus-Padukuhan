@@ -51,17 +51,21 @@ class Streambuilderdata extends StatelessWidget {
       } else {
         stream = await db
             .collection("penduduk")
+            .orderBy('dateTime', descending: true)
             .where("rt", isEqualTo: currUserCollectionRT)
-            .where("gender", isEqualTo: "${keywordSearchC.text}")
+            // isEqualTo: "${keywordSearchC.text}
+
             .snapshots();
 
-        print("###=> keywoard exist : ${keywordSearchC.text}");
+        // print("###=> keywoard exist : ${keywordSearchC.text}");
         // .where("nama", isGreaterThanOrEqualTo: ["Vega"]).snapshots();
       }
     } else {
-      stream = await db.collection("penduduk").snapshots();
+      stream = await db
+          .collection("penduduk")
+          .orderBy("dateTime", descending: true)
+          .snapshots();
     }
-
     return stream;
   }
 

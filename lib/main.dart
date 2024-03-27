@@ -52,6 +52,7 @@ class MyApp extends StatelessWidget {
         //       .apply(bodyColor: Colors.white),
         //   canvasColor: secondaryColor,
         // ),
+
         home: Obx(() => AuthDataController.isLoggedIn.value
             ? bottomNavbar()
             : LoginScreen()));
